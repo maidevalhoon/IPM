@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Granica × IIT Guwahati · AI-Augmented IPM Triage Layer</title>
+  <title>Granica x IIT Guwahati | AI-Augmented IPM Triage Layer</title>
   <meta name="description" content="AI-Augmented Triage Layer for IIT Guwahati Infrastructure Planning and Management (IPM). Transforming raw student complaints into single-visit technician dispatches.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body class="light-theme">
+<body class="light-theme" data-is-blank="{{ 'true' if is_blank else 'false' }}">
 
   <!-- Top Navigation & Institutional Branding -->
   <header class="app-header">
     <div class="header-left">
       <div class="brand-badge">
         <span class="iitg-logo-pill">IITG</span>
-        <span class="hackathon-tag">Granica × IIT Guwahati Hackathon · Physical AI Track</span>
+        <span class="hackathon-tag">Granica x IIT Guwahati Hackathon | Physical AI Track</span>
       </div>
       <h1 class="app-title">
         AI-Augmented Triage Layer
@@ -25,26 +25,18 @@
       </h1>
     </div>
 
-    <!-- Impact KPIs -->
+    <!-- Action Buttons -->
     <div class="header-metrics">
-      <div class="metric-pill">
-        <span class="metric-val text-emerald">1.0 Visit</span>
-        <span class="metric-lbl">Avg Resolution (was 2.4)</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-val text-amber">94.2%</span>
-        <span class="metric-lbl">Misclassifications Caught</span>
-      </div>
-      <div class="metric-pill">
-        <span class="metric-val text-blue">অসমীয়া</span>
-        <span class="metric-lbl">Native Assamese Handover</span>
-      </div>
+      <a href="/new" target="_blank" class="btn btn-sm btn-primary" title="Open empty ticket submission form in a new window">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>+ Blank Form (New Window)</span>
+      </a>
       <button id="openSettingsBtn" class="btn btn-sm btn-outline" title="Settings & Gemini API Key">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span>Engine</span>
       </button>
       <a href="/api/export/parquet" class="btn btn-sm btn-outline" download="ipm_triaged_tickets.parquet" title="Download open dataset in Parquet format">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span>Parquet</span>
       </a>
       <a href="/api/export/csv" class="btn btn-sm btn-outline" download="ipm_triaged_tickets.csv" title="Download open dataset in CSV format">
@@ -56,12 +48,11 @@
   <!-- Interactive Demo Case Selector Bar -->
   <section class="demo-selector-bar">
     <div class="selector-title">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>IIT Guwahati Historical Tickets:</span>
+      <span>Scenarios:</span>
     </div>
     <div class="demo-pills-carousel" id="demoPills">
       {% for demo in demos %}
-      <button class="demo-pill-btn {% if loop.first %}active{% endif %}" data-ticket-id="{{ demo.id }}">
+      <button class="demo-pill-btn {% if loop.first and not is_blank %}active{% endif %}" data-ticket-id="{{ demo.id }}">
         <span class="pill-id">{{ demo.id }}</span>
         <span class="pill-name">{{ demo.title }}</span>
         <span class="pill-tag">{{ demo.tag }}</span>
@@ -83,7 +74,7 @@
             <p class="pane-subtitle">Student portal submission (Messy, conversational, unverified)</p>
           </div>
         </div>
-        <button id="clearFormBtn" class="btn btn-xs btn-subtle" title="Reset form">Clear Form</button>
+        <button id="clearFormBtn" class="btn btn-xs btn-subtle" title="Reset form and response to blank">Clear Form</button>
       </div>
 
       <form id="studentTicketForm" class="ticket-form" onsubmit="return false;">
@@ -110,7 +101,7 @@
           </div>
           <div class="form-group flex-1">
             <label for="roomInput">Room / Location <span class="required">*</span></label>
-            <input type="text" id="roomInput" name="room" value="A233" placeholder="e.g. A233, Room 102" required>
+            <input type="text" id="roomInput" name="room" value="{{ '' if is_blank else 'A233' }}" placeholder="e.g. A233, Room 102" required>
           </div>
         </div>
 
@@ -137,13 +128,13 @@
             <label for="rawTextInput">Complaint Details <span class="required">*</span></label>
             <div class="textarea-actions">
               <button type="button" id="voiceSimBtn" class="btn-text-action" title="Simulate voice transcription">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                 <span>Voice Note</span>
               </button>
             </div>
           </div>
-          <textarea id="rawTextInput" name="raw_text" rows="3" placeholder="Type complaint here (conversational, vague, or Hinglish)..." required>broken thing.</textarea>
-          <div class="char-counter"><span id="charCount">13</span> chars</div>
+          <textarea id="rawTextInput" name="raw_text" rows="3" placeholder="Type complaint here (conversational, vague, or Hinglish)..." required>{{ '' if is_blank else 'broken thing.' }}</textarea>
+          <div class="char-counter"><span id="charCount">{{ '0' if is_blank else '13' }}</span> chars</div>
         </div>
 
         <!-- Image Upload & Photographic Evidence -->
@@ -154,21 +145,21 @@
           </div>
           <div class="upload-dropzone" id="dropzone">
             <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden">
-            <input type="hidden" id="imageUrlInput" value="/static/images/decon_study_lamp.jpeg">
+            <input type="hidden" id="imageUrlInput" value="{{ '' if is_blank else '/static/images/decon_study_lamp.jpeg' }}">
             <input type="hidden" id="imageBase64Input" value="">
 
             <!-- Preview Card -->
-            <div class="image-preview-container" id="imagePreviewContainer">
-              <img id="imagePreview" src="/static/images/decon_study_lamp.jpeg" alt="Evidence Preview">
+            <div class="image-preview-container" id="imagePreviewContainer" style="{{ 'display: none;' if is_blank else 'display: block;' }}">
+              <img id="imagePreview" src="{{ '' if is_blank else '/static/images/decon_study_lamp.jpeg' }}" alt="Evidence Preview">
               <div class="preview-overlay">
-                <button type="button" id="removeImageBtn" class="btn btn-danger btn-circle" title="Remove photo">✕</button>
-                <button type="button" id="expandImageBtn" class="btn btn-subtle btn-circle" title="View full photo">🔍</button>
+                <button type="button" id="removeImageBtn" class="btn btn-danger btn-circle" title="Remove photo">X</button>
+                <button type="button" id="expandImageBtn" class="btn btn-subtle btn-circle" title="View full photo">VIEW</button>
               </div>
             </div>
 
             <!-- Empty Dropzone State -->
-            <div class="dropzone-empty" id="dropzoneEmpty" style="display: none;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div class="dropzone-empty" id="dropzoneEmpty" style="{{ 'display: flex;' if is_blank else 'display: none;' }}">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               <p>Drag & drop damage photo, or <span class="browse-link">browse</span></p>
               <span class="upload-hint">Simulates phone camera capture from hostel room</span>
             </div>
@@ -178,7 +169,7 @@
         <!-- Submit & Trigger Triage Button -->
         <button type="button" id="runTriageBtn" class="btn btn-primary btn-lg w-full">
           <span class="btn-spinner" id="btnSpinner" style="display: none;"></span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
           <span id="triageBtnText">Run AI Triage & Augmentation</span>
         </button>
       </form>
@@ -196,19 +187,28 @@
         </div>
         <div class="pane-header-actions">
           <button id="printSlipBtn" class="btn btn-xs btn-outline" title="Print Technician Job Slip">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             <span>Print Slip</span>
           </button>
           <button id="copyJsonBtn" class="btn btn-xs btn-subtle" title="Copy JSON output">JSON</button>
         </div>
       </div>
 
+      <!-- Empty State / Placeholder when blank -->
+      <div class="empty-triage-state" id="emptyTriagePlaceholder" {% if not is_blank %}style="display: none;"{% endif %}>
+        <div class="empty-state-box">
+          <div class="empty-badge">[AWAITING SUBMISSION]</div>
+          <h3>AI Dispatch Ticket Not Yet Generated</h3>
+          <p>Fill out the raw student complaint in <strong>Step 1</strong> on the left, optionally attach damage photograph evidence, and click <strong>Run AI Triage & Augmentation</strong> to generate the work order using Gemini Multimodal AI.</p>
+        </div>
+      </div>
+
       <!-- Triage Result Container -->
-      <div class="triage-output-content" id="triageOutput">
+      <div class="triage-output-content" id="triageOutput" {% if is_blank %}style="display: none;"{% endif %}>
 
         <!-- 1. IPM Jurisdiction Validity Banner -->
         <div class="status-banner" id="validityBanner">
-          <div class="banner-icon" id="validityIcon">✅</div>
+          <div class="banner-icon" id="validityIcon">[VALID]</div>
           <div class="banner-content">
             <h4 id="validityTitle">IPM Valid Jurisdiction</h4>
             <p id="validityDesc">Physical campus asset verified under IPM civil/electrical maintenance scope.</p>
@@ -224,13 +224,13 @@
               <span class="sub-lbl">Student Classified</span>
               <div class="dept-badge-display dept-original" id="displayOriginalDept">Plumbing</div>
             </div>
-            <div class="dept-arrow">➔</div>
+            <div class="dept-arrow">-&gt;</div>
             <div class="dept-col">
               <span class="sub-lbl">AI Corrected / Verified</span>
               <div class="dept-badge-display dept-corrected" id="displayCorrectedDept">Electricity</div>
             </div>
             <div class="dept-status-flag" id="deptStatusFlag">
-              <span class="correction-tag corrected">⚠️ Reclassified by AI</span>
+              <span class="correction-tag corrected">[RECLASSIFIED BY AI]</span>
             </div>
           </div>
         </div>
@@ -259,7 +259,7 @@
           <div class="card chronic-card" id="chronicCard">
             <div class="card-label">Asset Failure History</div>
             <div class="chronic-status" id="chronicStatus">
-              <span class="chronic-icon">⚡</span>
+              <span class="chronic-icon">[!]</span>
               <div>
                 <strong id="chronicTitle">Single Occurrence</strong>
                 <p id="chronicDesc">Standard single-visit maintenance workflow approved.</p>
@@ -271,7 +271,7 @@
         <!-- 4. Trade Interdependency Alert (Conditional) -->
         <div class="card interdependency-card" id="interdependencyCard" style="display: none;">
           <div class="inter-header">
-            <span class="inter-icon">🔀</span>
+            <span class="inter-icon">[TRADE INTERDEPENDENCY]</span>
             <strong>Multi-Trade Interdependency & Sequencing</strong>
           </div>
           <p id="interdependencyText" class="inter-text"></p>
@@ -295,7 +295,7 @@
         <div class="card summary-card">
           <div class="card-label">Dispatcher Situational Summary (English)</div>
           <p class="technical-text" id="technicalSummaryText">
-            Visual analysis confirms wall-mounted adjustable DECON study lamp fixture has mechanically detached from the circular electrical conduit junction box in Lohit Hostel, Room A233. The lamp is suspended in mid-air supported solely by exposed electrical conductors (phase, neutral, earth). Screws have stripped out of the wall anchors, presenting an active electrical shock hazard, tensile stress on internal wiring, and physical fall hazard.
+            The wall-mounted study lamp in room A233 has detached from its mounting and is hanging precariously by its electrical wiring. This exposes live connections, posing an electrical shock and short-circuit hazard. The wall mounting hole is also damaged and requires patching.
           </p>
         </div>
 
@@ -308,14 +308,14 @@
             </div>
             <div class="audio-controls">
               <button id="playAudioBtn" class="btn btn-audio" title="Listen to Assamese instructions">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                 <span id="audioBtnText">Play Audio</span>
               </button>
-              <button id="copyAssameseBtn" class="btn btn-xs btn-subtle" title="Copy Assamese text">📋 Copy</button>
+              <button id="copyAssameseBtn" class="btn btn-xs btn-subtle" title="Copy Assamese text">COPY</button>
             </div>
           </div>
           <div class="assamese-body" id="assameseText">
-            লোহিত হোষ্টেলৰ A233 নম্বৰ ৰুমত: বেৰৰ পৰা ওলমি থকা DECON ষ্টাডি লেম্পটো খুলি নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই মজবুতকৈ ফিক্স কৰক। ওলমি থকা ওৱাৰিং পৰীক্ষা কৰি টেপিং কৰক যাতে শ্বৰ্ট চাৰ্কিট নহয়।
+            লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালত থকা ষ্টাডী লেম্পটো খহি ওলমি আছে। ইয়াৰ বাবে বৈদ্যুতিক তাঁৰসমূহ ওলাই পৰিছে যিটো বিপদজনক হ’ব পাৰে। টেষ্টাৰ, স্ক্ৰু আৰু ৱাল প্লাগ লগত লৈ গৈ লেম্পটো পুনৰ দেৱালত সুৰক্ষিতভাৱে লগাই দিয়ক।
           </div>
         </div>
 
@@ -345,8 +345,8 @@
           </div>
         </div>
         <div class="slip-actions-top">
-          <button id="triggerPrintBtn" class="btn btn-primary btn-sm">🖨️ Print Now</button>
-          <button id="closePrintModalBtn" class="btn btn-subtle btn-sm">✕ Close</button>
+          <button id="triggerPrintBtn" class="btn btn-primary btn-sm">Print Now</button>
+          <button id="closePrintModalBtn" class="btn btn-subtle btn-sm">Close</button>
         </div>
       </div>
 
@@ -396,19 +396,19 @@
     <div class="settings-card">
       <div class="settings-header">
         <h3>AI Engine & Multimodal Settings</h3>
-        <button id="closeSettingsModalBtn" class="btn btn-subtle btn-circle">✕</button>
+        <button id="closeSettingsModalBtn" class="btn btn-subtle btn-circle">X</button>
       </div>
       <div class="settings-body">
         <div class="form-group">
           <label>Engine Mode</label>
           <div class="toggle-group">
             <label class="toggle-label">
-              <input type="radio" name="engineMode" value="smart" id="modeSmart" checked>
-              <span>⚡ Smart Heuristic + Multimodal Vision (Zero-Latency / Offline)</span>
+              <input type="radio" name="engineMode" value="gemini" id="modeGemini" checked>
+              <span>[LIVE] Google Gemini 3.5 Flash (Multimodal API - Primary)</span>
             </label>
             <label class="toggle-label">
-              <input type="radio" name="engineMode" value="gemini" id="modeGemini">
-              <span>🧠 Live Google Gemini 2.0 Flash (Multimodal API)</span>
+              <input type="radio" name="engineMode" value="smart" id="modeSmart">
+              <span>[OFFLINE] High-Fidelity Heuristic Engine</span>
             </label>
           </div>
         </div>
@@ -416,12 +416,12 @@
         <div class="form-group" id="apiKeyGroup">
           <label for="geminiApiKeyInput">Gemini API Key</label>
           <input type="password" id="geminiApiKeyInput" placeholder="Enter AIzaSy... key (stored locally)">
-          <span class="label-hint">Stored securely in your local browser cache.</span>
+          <span class="label-hint">Active key preloaded from .env environment.</span>
         </div>
 
         <div class="settings-info-box">
-          <strong>Hackathon Live Evaluation:</strong>
-          <p>The Smart Multimodal Engine performs visual feature extraction and situation analysis on hostel images and text without requiring active API credits.</p>
+          <strong>Gemini Multimodal Live Pipeline:</strong>
+          <p>Directly processes raw hostel student descriptions and photographic evidence with situational visual intelligence.</p>
         </div>
       </div>
       <div class="settings-footer">

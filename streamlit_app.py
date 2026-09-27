@@ -1,7 +1,7 @@
 """
 Streamlit Two-Pane Interactive Application
 Granica × IIT Guwahati Hackathon: AI-Augmented Triage Layer (IPM).
-Minimalist Light Theme Edition.
+Strict Monochrome Edition: Pure Black and White, No Color Emojis.
 Run with:
     streamlit run streamlit_app.py
 """
@@ -24,87 +24,83 @@ from pipeline.triage_engine import analyze_ticket
 
 st.set_page_config(
     page_title="IPM AI-Augmented Triage | IIT Guwahati",
-    page_icon="🛠️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Minimalist Light Mode Styling for Streamlit
+# Custom Pure Monochrome Styling for Streamlit
 st.markdown("""
 <style>
     .main {
-        background-color: #f8fafc;
+        background-color: #ffffff;
     }
     .stApp {
-        background-color: #f8fafc;
-        color: #0f172a;
+        background-color: #ffffff;
+        color: #000000;
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     .metric-card {
         background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
+        border: 1px solid #000000;
+        border-radius: 4px;
         padding: 10px 14px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .assamese-card {
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-        border-radius: 8px;
+        background: #fafafa;
+        border: 1px solid #000000;
+        border-left: 5px solid #000000;
+        border-radius: 4px;
         padding: 14px 16px;
         font-size: 1.1rem;
         line-height: 1.7;
-        color: #172554;
-        border-left: 4px solid #2563eb;
+        color: #000000;
     }
     .stButton>button {
-        border-radius: 6px;
-        font-weight: 600;
+        background-color: #000000;
+        color: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        font-weight: 700;
+    }
+    .stButton>button:hover {
+        background-color: #222222;
+        color: #ffffff;
+        border-color: #222222;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # Sidebar Configuration & Demo Presets
 with st.sidebar:
-    st.markdown("### 🏛️ IIT Guwahati · IPM")
-    st.caption("AI-Augmented Triage Layer")
+    st.markdown("### IIT Guwahati | IPM")
+    st.caption("AI-Augmented Triage Layer (Strict Monochrome)")
     st.markdown("---")
     
-    st.subheader("⚡ Quick Load Demo Cases")
+    st.subheader("Historical & Hardcoded Scenarios")
     demos = get_all_demos()
     demo_titles = [f"{d['id']}: {d['title']}" for d in demos]
-    selected_demo_title = st.selectbox("Choose a Historical Ticket:", demo_titles, index=0)
+    selected_demo_title = st.selectbox("Choose a Scenario:", demo_titles, index=0)
     
     demo_id = selected_demo_title.split(":")[0]
     selected_demo = get_demo_by_id(demo_id)
 
     st.markdown("---")
-    st.subheader("⚙️ Engine Settings")
+    st.subheader("Engine Settings")
     api_key_input = st.text_input("Gemini API Key (Optional):", type="password", help="Leave blank to use Smart Offline Multimodal Vision Engine")
     force_offline = st.checkbox("Force Offline Mode", value=False)
     
     st.markdown("---")
     st.markdown("""
     **Operational KPIs:**
-    - ⏱️ **Visits**: 1.0 Visit (Reduced from 2.4)
-    - 🎯 **Accuracy**: 94.2% Misclassifications caught
-    - 🗣️ **Local Language**: Direct Assamese (অসমীয়া)
-    - 📦 **Hardware**: 100% Pre-packed Toolkit
+    - **Visits**: 1.0 Visit (Reduced from 2.4)
+    - **Accuracy**: 94.2% Misclassifications caught
+    - **Local Language**: Direct Assamese (অসমীয়া)
+    - **Hardware**: 100% Pre-packed Toolkit
     """)
 
 # Header Banner
 st.title("Campus Infrastructure Planning & Management (IPM)")
-st.markdown("#### **Two-Step AI Multimodal Dispatch Pipeline** · From Messy Student Input to Prepared Technician Dispatch")
-
-col_metric1, col_metric2, col_metric3, col_metric4 = st.columns(4)
-with col_metric1:
-    st.metric("Avg Technician Visits", "1.0 Visit", delta="-58% (Was 2.4)", delta_color="normal")
-with col_metric2:
-    st.metric("Misclassification Catch", "94.2%", delta="Real-time")
-with col_metric3:
-    st.metric("Native Translation", "অসমীয়া (Assamese)", delta="Auto-generated")
-with col_metric4:
-    st.metric("Hardware Preparation", "100% Pre-packed", delta="Zero Return Trips")
+st.markdown("#### **Two-Step AI Multimodal Dispatch Pipeline** | From Messy Student Input to Prepared Technician Dispatch")
 
 st.markdown("---")
 
@@ -119,7 +115,7 @@ def_img = selected_demo.get("image_url") if selected_demo else "/static/images/d
 
 # Left Pane: Raw Student Ticket
 with col_left:
-    st.subheader("📥 Step 1: Raw Student Ticket")
+    st.subheader("Step 1: Raw Student Ticket")
     st.caption("Student portal submission (Messy, conversational, unverified)")
     
     hostels_list = [
@@ -152,11 +148,11 @@ with col_left:
             st.image(str(full_img_path), caption="Attached Photographic Evidence", use_column_width=True)
             img_path = str(full_img_path)
 
-    run_triage = st.button("🚀 Process & Generate AI Dispatch Ticket", type="primary", use_container_width=True)
+    run_triage = st.button("Run AI Triage & Augmentation", type="primary", use_container_width=True)
 
 # Right Pane: AI-Augmented Dispatch Ticket
 with col_right:
-    st.subheader("🛠️ Step 2: AI-Augmented Dispatch Ticket")
+    st.subheader("Step 2: AI-Augmented Dispatch Ticket")
     st.caption("Synthesized operational directive for IPM dispatcher and frontline technicians")
     
     with st.spinner("Multimodal AI Triage Model Analyzing Physical Evidence..."):
@@ -172,10 +168,9 @@ with col_right:
 
     # 1. IPM Validity Banner
     if not result.ipm_validity:
-        st.error("❌ **INVALID FOR IPM: Issue belongs to IT / Computer Center (CC)**")
-        st.warning("🔄 **Auto-Reroute Triggered:** Forwarded to IIT Guwahati Computer Center Network Helpdesk.")
+        st.error(f"[NOT IPM SECTION PART] Out of Scope: {result.technical_summary_english}")
     else:
-        st.success("✅ **IPM VALID: Campus Physical Infrastructure Ticket**")
+        st.success("[VALID IPM JURISDICTION] Physical campus asset verified under IPM maintenance scope.")
 
     # 2. Department & Reclassification
     c1, c2 = st.columns(2)
@@ -183,41 +178,41 @@ with col_right:
         st.markdown(f"**Student Selected Dept:** `{selected_cat}`")
     with c2:
         is_corrected = result.corrected_department != selected_cat
-        correction_badge = " *(⚠️ Reclassified by AI)*" if is_corrected else " *(✓ Verified)*"
+        correction_badge = " *([RECLASSIFIED BY AI])* " if is_corrected else " *([VERIFIED])* "
         st.markdown(f"**Corrected Department:** `{result.corrected_department}`{correction_badge}")
 
     # 3. Severity & Chronic Issue
-    sev_color = {5: "🔴 Level 5 (Urgent / Flooding)", 4: "🟠 Level 4 (Electrical / Hazard)", 3: "🟡 Level 3 (Routine Maintenance)", 2: "🔵 Level 2 (Minor Repair)", 1: "🟢 Level 1 (Cosmetic)"}
-    st.markdown(f"**Severity Score:** {sev_color.get(result.severity_score, 'Level ' + str(result.severity_score))}")
+    st.markdown(f"**Severity Score:** Level {result.severity_score}")
 
     if result.chronic_issue_flag:
-        st.error("⚠️ **CHRONIC ISSUE DETECTED (Repeated Failure):** Directives mandate structural reinforcement / full unit replacement rather than another temporary patch.")
+        st.error("[CHRONIC FAILURE DETECTED] Repeated failure history confirmed. Structural remedy / asset replacement mandated.")
 
     # 4. Interdependency Flag
     if result.interdependency_flag:
-        st.warning(f"🔀 **Trade Interdependency Warning:**\n{result.interdependency_flag}")
+        st.warning(f"[MULTI-TRADE INTERDEPENDENCY]:\n{result.interdependency_flag}")
 
     # 5. Predicted Tools & Parts
-    st.markdown("#### 🧰 Pre-Packed Hardware & Toolkit (Single-Visit Fix)")
+    st.markdown("#### Pre-Packed Hardware & Toolkit (Single-Visit Fix)")
     for tool in result.predicted_tools_parts:
-        st.markdown(f"- ✅ **{tool}** *(Warehouse Stock: Checked)*")
+        st.markdown(f"- **{tool}** *(Warehouse Stock: Checked)*")
 
     # 6. Situational Technical Summary (English)
-    st.markdown("#### 📋 Dispatcher Situational Summary (English)")
+    st.markdown("#### Dispatcher Situational Summary (English)")
     st.info(result.technical_summary_english)
 
     # 7. Frontline Instructions (Assamese)
-    st.markdown("#### 🗣️ Technician Instructions (অসমীয়া - Assamese)")
-    st.markdown(f'<div class="assamese-card">📍 <b>নিৰ্দেশনা:</b> {result.technician_instructions_assamese}</div>', unsafe_allow_html=True)
+    st.markdown("#### Technician Instructions (অসমীয়া - Assamese)")
+    st.markdown(f'<div class="assamese-card"><b>নিৰ্দেশনা:</b> {result.technician_instructions_assamese}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     # Action Buttons
     ac1, ac2 = st.columns(2)
     with ac1:
-        st.button("📲 Dispatch Technician (SMS / App)", use_container_width=True)
+        btn_label = "Dispatch Technician" if result.ipm_validity else "Submit to External Portal"
+        st.button(btn_label, use_container_width=True)
     with ac2:
         st.download_button(
-            label="💾 Download Structured JSON",
+            label="Download Structured JSON",
             data=result.model_dump_json(indent=2),
             file_name="ipm_dispatch_ticket.json",
             mime="application/json",

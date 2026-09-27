@@ -1,7 +1,8 @@
 /**
  * Granica × IIT Guwahati Hackathon
  * AI-Augmented Triage Layer (IPM Section)
- * Frontend Interactions & Multimodal Orchestrator (Minimalist Light Mode)
+ * Frontend Interactions & Multimodal Orchestrator
+ * STRICT MONOCHROME EDITION: Powered by Google Gemini Multimodal API
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,13 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropzoneEmpty = document.getElementById('dropzoneEmpty');
   const imagePreview = document.getElementById('imagePreview');
   const removeImageBtn = document.getElementById('removeImageBtn');
+  const expandImageBtn = document.getElementById('expandImageBtn');
   const runTriageBtn = document.getElementById('runTriageBtn');
   const btnSpinner = document.getElementById('btnSpinner');
   const triageBtnText = document.getElementById('triageBtnText');
   const clearFormBtn = document.getElementById('clearFormBtn');
   const voiceSimBtn = document.getElementById('voiceSimBtn');
 
-  // Output Elements
+  // Output Elements & Empty State
+  const emptyTriagePlaceholder = document.getElementById('emptyTriagePlaceholder');
+  const triageOutput = document.getElementById('triageOutput');
   const validityBanner = document.getElementById('validityBanner');
   const validityIcon = document.getElementById('validityIcon');
   const validityTitle = document.getElementById('validityTitle');
@@ -77,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeAudioUtterance = null;
   let isPlayingAudio = false;
 
-  // LocalStorage Settings
+  // LocalStorage Settings - Default to Gemini API
   const savedApiKey = localStorage.getItem('ipm_gemini_api_key') || '';
-  const savedMode = localStorage.getItem('ipm_engine_mode') || 'smart';
+  const savedMode = localStorage.getItem('ipm_engine_mode') || 'gemini';
   geminiApiKeyInput.value = savedApiKey;
-  if (savedMode === 'gemini') {
-    modeGemini.checked = true;
-  } else {
+  if (savedMode === 'smart') {
     modeSmart.checked = true;
+  } else {
+    modeGemini.checked = true;
   }
 
   // Update Character Counter
@@ -96,12 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
   rawTextInput.addEventListener('input', updateCharCount);
   updateCharCount();
 
-  // Toast System
+  // Toast System - Strictly Monochrome
   function showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'warn' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
+    const tag = type === 'success' ? '[OK]' : type === 'warn' ? '[!]' : '[i]';
+    toast.innerHTML = `<span>${tag}</span><span>${message}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
       toast.style.opacity = '0';
@@ -115,19 +120,25 @@ document.addEventListener('DOMContentLoaded', () => {
     currentTriageData = data;
     const cat = studentCategory || originalCategorySelect.value;
 
+    // Show triageOutput and hide placeholder
+    if (emptyTriagePlaceholder) emptyTriagePlaceholder.style.display = 'none';
+    if (triageOutput) triageOutput.style.display = 'flex';
+
     // 1. Validity Banner
     if (!data.ipm_validity) {
       validityBanner.classList.add('banner-invalid');
-      validityIcon.textContent = '❌';
-      validityTitle.textContent = 'INVALID FOR IPM · RE-ROUTED TO COMPUTER CENTER (CC)';
-      validityDesc.textContent = 'Issue pertains to campus LAN / IT connectivity. IPM civil/electrical triage rejected; auto-transferred to Computer Center network desk.';
-      validityBadge.textContent = 'Out of Scope';
+      validityIcon.textContent = '[NOT IPM]';
+      validityTitle.textContent = 'NOT IPM SECTION PART';
+      validityDesc.textContent = data.technical_summary_english;
+      validityBadge.textContent = 'OUT OF SCOPE';
+      dispatchNowBtn.querySelector('span').textContent = 'Submit to ' + data.corrected_department;
     } else {
       validityBanner.classList.remove('banner-invalid');
-      validityIcon.textContent = '✅';
-      validityTitle.textContent = 'IPM Valid Jurisdiction';
+      validityIcon.textContent = '[VALID]';
+      validityTitle.textContent = 'IPM VALID JURISDICTION';
       validityDesc.textContent = 'Physical campus asset verified under IPM civil/electrical maintenance scope.';
-      validityBadge.textContent = 'Valid IPM';
+      validityBadge.textContent = 'VALID IPM';
+      dispatchNowBtn.querySelector('span').textContent = 'Dispatch Work Order to ' + (data.corrected_department || 'Technician');
     }
 
     // 2. Department Reclassification
@@ -135,9 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
     displayCorrectedDept.textContent = data.corrected_department;
 
     if (cat.trim().toLowerCase() !== data.corrected_department.trim().toLowerCase()) {
-      deptStatusFlag.innerHTML = '<span class="correction-tag corrected">⚠️ Reclassified by AI</span>';
+      deptStatusFlag.innerHTML = '<span class="correction-tag corrected">[RECLASSIFIED BY AI]</span>';
     } else {
-      deptStatusFlag.innerHTML = '<span class="correction-tag verified">✓ Verified Match</span>';
+      deptStatusFlag.innerHTML = '<span class="correction-tag verified">[VERIFIED MATCH]</span>';
     }
 
     // 3. Severity Scale & Meter
@@ -145,13 +156,13 @@ document.addEventListener('DOMContentLoaded', () => {
     sevNumber.textContent = sev;
     
     const sevLabels = {
-      1: 'Level 1 · Minor Cosmetic Issue',
+      1: 'Level 1 · Low Priority / Administrative Forwarding / Painting',
       2: 'Level 2 · Routine Minor Repair',
       3: 'Level 3 · Standard Maintenance Needed',
       4: 'Level 4 · Suspended on Live Wires / Electrical Hazard',
-      5: 'Level 5 · Active Emergency / Water Leak Flooding'
+      5: 'Level 5 · Active Emergency / Live Current Shock Hazard'
     };
-    sevDescription.textContent = sevLabels[sev];
+    sevDescription.textContent = sevLabels[sev] || `Level ${sev}`;
 
     sevSegments.forEach(seg => {
       const level = parseInt(seg.getAttribute('data-level'), 10);
@@ -165,8 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Chronic Issue Flag
     if (data.chronic_issue_flag) {
       chronicCard.classList.add('chronic-alert');
-      chronicTitle.textContent = '⚠️ CHRONIC FAILURE DETECTED';
-      chronicDesc.textContent = 'Text specifies repeated breakdown history (e.g. "3rd time"). Protocol: Mandatory structural/asset replacement.';
+      chronicTitle.textContent = '[CHRONIC FAILURE DETECTED]';
+      chronicDesc.textContent = 'Repeated breakdown history confirmed. Structural remedy & asset replacement mandated.';
     } else {
       chronicCard.classList.remove('chronic-alert');
       chronicTitle.textContent = 'Single Occurrence';
@@ -181,17 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.interdependency_flag.toLowerCase().includes('before')) {
         sequenceSteps.innerHTML = `
           <div class="seq-node">Phase 1: Civil Masonry Patch</div>
-          <div class="seq-arrow">➔ Curing ➔</div>
+          <div class="seq-arrow">-&gt; Curing -&gt;</div>
           <div class="seq-node">Phase 2: Electrical Remounting</div>
         `;
-      } else if (data.interdependency_flag.toLowerCase().includes('split')) {
-        sequenceSteps.innerHTML = `
-          <div class="seq-node">Trade A: Plumbing (Fixture Fix)</div>
-          <div class="seq-arrow">&</div>
-          <div class="seq-node">Trade B: Carpentry (Door Latch)</div>
-        `;
       } else {
-        sequenceSteps.innerHTML = `<div class="seq-node">Multi-Department Coordinated Action</div>`;
+        sequenceSteps.innerHTML = `<div class="seq-node">Inter-Department Routing / Verification</div>`;
       }
     } else {
       interdependencyCard.style.display = 'none';
@@ -221,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     assameseText.textContent = data.technician_instructions_assamese || 'নিৰ্দেশনা উপলব্ধ নহয়।';
   }
 
-  // Trigger Triage Pipeline Request
+  // Trigger Triage Pipeline Request (Using Gemini API)
   async function executeTriage() {
     const rawText = rawTextInput.value.trim();
     if (!rawText) {
@@ -231,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnSpinner.style.display = 'inline-block';
-    triageBtnText.textContent = 'Multimodal Vision Analyzing...';
+    triageBtnText.textContent = 'Gemini Multimodal Analyzing...';
     runTriageBtn.disabled = true;
 
     try {
@@ -258,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const resJson = await response.json();
       if (resJson.status === 'success') {
         renderTriageOutput(resJson.data, originalCategorySelect.value);
-        showToast('AI Multimodal Triage completed!', 'success');
+        showToast('Gemini Multimodal Triage generated successfully.', 'success');
       } else {
         showToast(resJson.message || 'Triage processing error.', 'warn');
       }
@@ -305,9 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
             imageUrlInput.value = '';
           }
 
-          // Immediately render expected output
+          // Immediately render Gemini expected output
           renderTriageOutput(t.expected_output, t.original_category);
-          showToast(`Loaded: ${t.id} (${t.title})`, 'info');
+          showToast(`Loaded: ${t.id}`, 'info');
         }
       } catch (e) {
         console.error('Error fetching demo:', e);
@@ -326,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
       imageUrlInput.value = ''; // Local upload overrides static URL
       imagePreviewContainer.style.display = 'block';
       dropzoneEmpty.style.display = 'none';
-      showToast('Photo evidence attached & ready for vision analysis.', 'success');
+      showToast('Photo evidence attached.', 'success');
     };
     reader.readAsDataURL(file);
   }
@@ -355,19 +360,25 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('Photo evidence removed.', 'info');
   });
 
+  if (expandImageBtn) {
+    expandImageBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (imagePreview.src) {
+        window.open(imagePreview.src, '_blank');
+      }
+    });
+  }
+
   // Drag and Drop
   dropzone.addEventListener('dragover', (e) => {
     e.preventDefault();
-    dropzone.style.borderColor = 'var(--accent-blue)';
-    dropzone.style.background = '#eff6ff';
+    dropzone.style.background = '#eeeeee';
   });
   dropzone.addEventListener('dragleave', () => {
-    dropzone.style.borderColor = '';
     dropzone.style.background = '';
   });
   dropzone.addEventListener('drop', (e) => {
     e.preventDefault();
-    dropzone.style.borderColor = '';
     dropzone.style.background = '';
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       imageFileInput.files = e.dataTransfer.files;
@@ -379,9 +390,11 @@ document.addEventListener('DOMContentLoaded', () => {
   voiceSimBtn.addEventListener('click', () => {
     const samples = [
       "broken thing.",
-      "Bhai study table ke upar wall lamp pura nikal gaya hai aur taar pe latak raha hai! Sparks aa sakte hain ya current lag sakta hai",
-      "Wall bracket and lamp came out while adjusting light angle, screws fell down and hole in plaster got bigger.",
-      "Room 274 ke paas ke water cooler ki pipe me leakage ho gya he , baar baar kuch beep beep noise ata rehta hai usse..."
+      "paint the wall",
+      "Connecting laptop with lan shows no internet",
+      "no table and chair in my hostel room",
+      "Study lamp fell from wall, hanging on wires current coming",
+      "plaster chipping off and graffiti on wall"
     ];
     const picked = samples[Math.floor(Math.random() * samples.length)];
     rawTextInput.value = '';
@@ -397,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 20);
   });
 
-  // Clear Form
+  // Clear Form (Resets both Form and Response sides to empty state)
   clearFormBtn.addEventListener('click', () => {
     rawTextInput.value = '';
     updateCharCount();
@@ -408,7 +421,14 @@ document.addEventListener('DOMContentLoaded', () => {
     imageFileInput.value = '';
     imagePreviewContainer.style.display = 'none';
     dropzoneEmpty.style.display = 'flex';
-    showToast('Form cleared.', 'info');
+
+    // Clear response side and deselect all demo pills
+    if (emptyTriagePlaceholder) emptyTriagePlaceholder.style.display = 'flex';
+    if (triageOutput) triageOutput.style.display = 'none';
+    demoPills.forEach(p => p.classList.remove('active'));
+    currentTriageData = null;
+
+    showToast('Form and response cleared to blank state.', 'info');
   });
 
   // Assamese Audio Readout
@@ -471,8 +491,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dispatch Now Trigger
   dispatchNowBtn.addEventListener('click', () => {
-    const orderNo = 'IPM-WO-' + Math.floor(100000 + Math.random() * 900000);
-    showToast(`Work order ${orderNo} dispatched to frontline contractor!`, 'success');
+    if (currentTriageData && !currentTriageData.ipm_validity) {
+      showToast(`Complaint submitted to external portal: ${currentTriageData.corrected_department}`, 'info');
+    } else {
+      const orderNo = 'IPM-WO-' + Math.floor(100000 + Math.random() * 900000);
+      showToast(`Work order ${orderNo} dispatched to frontline contractor!`, 'success');
+    }
   });
 
   // Printable Slip Modal
@@ -526,9 +550,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
 
-  // Initialize with First Demo Ticket (Lohit A233: 'broken thing.')
-  const firstPill = document.querySelector('.demo-pill-btn.active');
-  if (firstPill) {
-    firstPill.click();
+  // Initialize Page Mode
+  const isBlankPage = document.body.getAttribute('data-is-blank') === 'true' ||
+                      window.location.pathname === '/new' ||
+                      window.location.search.includes('blank=');
+
+  if (!isBlankPage) {
+    const firstPill = document.querySelector('.demo-pill-btn.active');
+    if (firstPill) {
+      firstPill.click();
+    }
+  } else {
+    // Blank Mode: Both form and response sides are clean empty states
+    if (emptyTriagePlaceholder) emptyTriagePlaceholder.style.display = 'flex';
+    if (triageOutput) triageOutput.style.display = 'none';
+    demoPills.forEach(p => p.classList.remove('active'));
+    currentTriageData = null;
   }
 });

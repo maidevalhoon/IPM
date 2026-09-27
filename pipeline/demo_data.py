@@ -1,16 +1,19 @@
 """
-Pre-loaded Demo Data and Baseline Historical Tickets from IIT Guwahati
-For Granica × IIT Guwahati Hackathon: AI-Augmented Triage Layer (IPM).
-Includes multimodal test cases using real physical photographic evidence.
+Independent Gemini-Augmented Examples and Demo Scenarios
+Granica × IIT Guwahati Hackathon: AI-Augmented Triage Layer (IPM).
+Strictly monochrome, Gemini multimodal outputs, and reduced to 2 wall, 2 lamp, and 2 non-IPM scenarios.
 """
 
 from typing import List, Dict, Any
 
 DEMO_TICKETS: List[Dict[str, Any]] = [
+    # ----------------------------------------------------
+    # IMAGE 1: static/images/image.png (Wall Graffiti / Peeling Plaster) - 2 SCENARIOS
+    # ----------------------------------------------------
     {
-        "id": "TICKET-UMIAM-PAINT",
-        "title": "Wall Graffiti & Paint Defacement ('paint the wall')",
-        "tag": "Civil Works · Misclassified to Carpentry",
+        "id": "TICKET-WALL-01",
+        "title": "Wall: 'paint the wall' (Misclassified to Carpentry)",
+        "tag": "Wall Image · Carpentry -> Other Civil Works",
         "hostel": "Umiam Hostel",
         "room": "Room 102",
         "original_category": "Carpentry",
@@ -19,33 +22,69 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
         "expected_output": {
             "ipm_validity": True,
             "corrected_department": "Other Civil Works",
-            "technical_summary_english": "Visual inspection identifies hostel room concrete wall defaced with black paint graffiti ('AK KI') and peeling adhesive tape marks in Umiam Hostel, Room 102. Surface requires scraping of tape residue, skim-coating of wall putty over peeled plaster blemishes, sanding, and two coats of interior white acrylic emulsion paint. Student misclassified under Carpentry.",
-            "technician_instructions_assamese": "উমিয়াম হোষ্টেলৰ ১০২ নম্বৰ ৰুমত: বেৰৰ ক'লা গ্ৰাফিটি ('AK KI') আৰু টেপৰ আঠা স্ক্ৰেপাৰেৰে চাঁচি পেলাওক। ফাট আৰু খহি পৰা ঠাইত পুট্টি লগাই চেন্দপেপাৰেৰে সমান কৰক আৰু তাৰ পাছত বগা ৰং (White Emulsion Paint) মাৰি বেৰখন নতুনকৈ ৰং কৰক।",
+            "technical_summary_english": "The student requested wall painting. Visual evidence shows ink graffiti on the wall along with a small hole/damaged plaster in the center. The wall requires plaster patching/putty filling followed by a fresh coat of paint to cover the graffiti and repair the surface damage.",
+            "technician_instructions_assamese": "উমিয়াম হোষ্টেলৰ ১০২ নম্বৰ কোঠাৰ দেৱালখনত চিয়াঁহীৰ দাগ আৰু এটা সৰু ফুটা আছে। প্ৰথমে ফুটাটো পুটি (putty) বা প্লাষ্টাৰেৰে বন্ধ কৰক আৰু তাৰ পিছত দেৱালখনত নতুনকৈ ৰং কৰক। প্ৰয়োজনীয় সামগ্ৰী: দেৱালৰ পুটি, ৰং, ব্ৰাছ, আৰু চেণ্ডপেপাৰ।",
             "predicted_tools_parts": [
-                "4-inch Steel Paint Scraper & Putty Knife",
-                "Waterproof Sandpaper Assortment (80-grit & 120-grit)",
-                "Acrylic Wall Putty & Surface Primer (5kg)",
-                "White Interior Acrylic Emulsion Paint (4L)",
-                "9-inch Paint Roller with Extension Pole & 2-inch Edge Brush",
-                "Floor Drop Cloth & Painter's Masking Tape"
+                "Wall putty",
+                "White paint",
+                "Paint brush",
+                "Sandpaper",
+                "Putty knife"
+            ],
+            "interdependency_flag": None,
+            "severity_score": 1,
+            "chronic_issue_flag": False,
+            "visual_evidence_detected": [
+                "ink graffiti on wall",
+                "small hole in plaster",
+                "scratched wall surface"
+            ],
+            "confidence_score": 0.95,
+            "recommended_action": "Scheduled Repair"
+        }
+    },
+    {
+        "id": "TICKET-WALL-02",
+        "title": "Wall: 'plaster chipping off and graffiti on wall'",
+        "tag": "Wall Image · Plaster & Surface Prep",
+        "hostel": "Umiam Hostel",
+        "room": "Room 102",
+        "original_category": "Other Civil Works",
+        "raw_text": "plaster chipping off and graffiti on wall",
+        "image_url": "/static/images/image.png",
+        "expected_output": {
+            "ipm_validity": True,
+            "corrected_department": "Other Civil Works",
+            "technical_summary_english": "The wall plaster is chipped, creating a small hole/indentation, and there is ink graffiti on the wall surface. Requires plaster patching, sanding, and repainting to restore the wall finish.",
+            "technician_instructions_assamese": "উমিয়াম হোষ্টেলৰ ১০২ নম্বৰ কোঠাৰ দেৱালৰ প্লাষ্টাৰ খহি যোৱা অংশটো পুটি আৰু চিমেণ্টেৰে মেৰামতি কৰক। দেৱালত থকা চিয়াহীৰ দাগবোৰ আঁতৰাই নতুনকৈ ৰং কৰিব লাগিব। প্ৰয়োজনীয় সামগ্ৰী: ৱাল পুটি, বগা চিমেণ্ট, ৰং, ব্ৰাছ আৰু ছেণ্ডপেপাৰ।",
+            "predicted_tools_parts": [
+                "Wall putty",
+                "White cement",
+                "Sandpaper",
+                "Paint brush",
+                "Wall paint",
+                "Scraper"
             ],
             "interdependency_flag": None,
             "severity_score": 2,
             "chronic_issue_flag": False,
             "visual_evidence_detected": [
-                "Defaced wall surface with large black paint graffiti ('AK KI')",
-                "Multiple adhesive tape marks with peeling surface paint",
-                "Chipped wall paint and plaster surface blemishes",
-                "Surface measurement pencil marks"
+                "chipped wall plaster hole",
+                "ink graffiti markings",
+                "damaged wall surface"
             ],
-            "confidence_score": 0.98,
-            "recommended_action": "RECLASSIFY TO CIVIL/PAINTING: Reassign from Carpentry to Other Civil Works; dispatch painter with scraper, wall putty, roller, and white emulsion paint."
+            "confidence_score": 0.96,
+            "recommended_action": "Scheduled Repair"
         }
     },
+
+    # ----------------------------------------------------
+    # IMAGE 2: static/images/decon_study_lamp.jpeg - 2 SCENARIOS
+    # ----------------------------------------------------
     {
-        "id": "TICKET-LOHIT-A233",
-        "title": "Unhinged Wall Lamp (Vague 'broken thing.')",
-        "tag": "Image-First · Misclassified to Plumbing",
+        "id": "TICKET-LAMP-01",
+        "title": "Lamp: 'broken thing.' (Misclassified to Plumbing)",
+        "tag": "Lamp Image · Plumbing -> Electricity",
         "hostel": "Lohit Hostel",
         "room": "A233",
         "original_category": "Plumbing",
@@ -54,316 +93,114 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
         "expected_output": {
             "ipm_validity": True,
             "corrected_department": "Electricity",
-            "technical_summary_english": "Visual analysis detects wall-mounted adjustable DECON study lamp fixture mechanically unhinged and detached from the circular conduit junction box. Fixture is suspended in mid-air supported solely by exposed electrical conductors (phase, neutral, earth), creating an active risk of electrical short-circuit and conductor shearing in Lohit Hostel, Room A233.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ ৰুমত: বেৰৰ পৰা ওলমি থকা DECON ষ্টাডি লেম্পটো খুলি নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই মজবুতকৈ ফিক্স কৰক। ওলমি থকা ওৱাৰিং পৰীক্ষা কৰি টেপিং কৰক যাতে শ্বৰ্ট চাৰ্কিট নহয়।",
+            "technical_summary_english": "The wall-mounted study lamp in room A233 has detached from its mounting and is hanging precariously by its electrical wiring. This exposes live connections, posing an electrical shock and short-circuit hazard. The wall mounting hole is also damaged and requires patching.",
+            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালত থকা ষ্টাডী লেম্পটো খহি ওলমি আছে। ইয়াৰ বাবে বৈদ্যুতিক তাঁৰসমূহ ওলাই পৰিছে যিটো বিপদজনক হ’ব পাৰে। টেষ্টাৰ, স্ক্ৰু আৰু ৱাল প্লাগ লগত লৈ গৈ লেম্পটো পুনৰ দেৱালত সুৰক্ষিতভাৱে লগাই দিয়ক। প্ৰয়োজন হ'লে দেৱালৰ ফুটাটো মেৰামতি কৰক।",
             "predicted_tools_parts": [
-                "Insulated Screwdriver Set (1000V Rated)",
-                "Neon Line Phase Tester",
-                "6mm Nylon Wall Anchor Plugs (Gitti)",
-                "1.5-inch Self-Tapping Screws (M4)",
-                "Cordless Drill with 6mm Masonry Bit",
-                "PVC Electrical Insulation Tape"
+                "Wall plugs",
+                "Screws",
+                "Line tester",
+                "Screwdriver",
+                "Insulation tape",
+                "White cement / Wall putty"
             ],
             "interdependency_flag": None,
             "severity_score": 4,
             "chronic_issue_flag": False,
             "visual_evidence_detected": [
-                "DECON wall-mounted adjustable study spotlight",
-                "Mechanically detached circular mounting base",
-                "Suspended by 3 exposed electrical wires (Phase/Neutral/Earth)",
-                "Stripped screw anchor holes on wall plaster"
+                "detached wall study lamp",
+                "hanging exposed electrical wiring",
+                "damaged wall mounting hole"
             ],
             "confidence_score": 0.98,
-            "recommended_action": "PRIORITY ELECTRICAL DISPATCH: Reclassify from Plumbing to Electricity; technician must carry 6mm wall plugs, drill, and insulated toolset."
+            "recommended_action": "Immediate Dispatch"
         }
     },
     {
-        "id": "TICKET-LOHIT-ELEC",
-        "title": "Hanging on Live Wires (Shock Hazard)",
-        "tag": "Electricity · Wire Tension Hazard",
+        "id": "TICKET-LAMP-02",
+        "title": "Lamp: 'Study lamp fell from wall, hanging on wires current coming'",
+        "tag": "Lamp Image · Shock Hazard (Level 5)",
         "hostel": "Lohit Hostel",
         "room": "A233",
         "original_category": "Electricity",
-        "raw_text": "Bhai study table ke upar wall lamp pura nikal gaya hai aur taar pe latak raha hai! Sparks aa sakte hain ya current lag sakta hai, please electrician ko jaldi bhejo study table use nahi kar pa raha.",
+        "raw_text": "Study lamp fell from wall, hanging on wires current coming",
         "image_url": "/static/images/decon_study_lamp.jpeg",
         "expected_output": {
             "ipm_validity": True,
             "corrected_department": "Electricity",
-            "technical_summary_english": "Mechanical dislodgement of wall-mounted task spotlight above student study desk. Tensile stress applied directly onto 230V internal wiring junction with exposed conductor terminations. Immediate risk of arc flash, insulation tearing, or accidental contact shock during room occupancy.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ ৰুমত: পঢ়া টেবুলৰ ওপৰত বেৰৰ পৰা ওলমি থকা লেম্পটো বিজুলী সংযোগ বন্ধ কৰি নতুনকৈ মজবুতকৈ ফিক্স কৰক। তাঁৰবোৰ পৰীক্ষা কৰি টেপিং কৰক যাতে কাৰেণ্ট নালাগে।",
+            "technical_summary_english": "The wall-mounted study lamp in Lohit Hostel, Room A233, has detached from its mounting point and is currently suspended by its live electrical wiring. The student reports active current flowing through the exposed wires, posing an immediate electrical shock and short-circuit hazard. The wall plaster around the junction box is damaged, requiring re-anchoring with wall plugs and screws.",
+            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালৰ পৰা ষ্টাডী লেম্পটো খহি পৰিছে আৰু ই লাইভ তাৰত ওলমি আছে। বিদ্যুৎ স্পৰ্শৰ তীব্ৰ বিপদ আছে। কাম আৰম্ভ কৰাৰ আগতে মেইন চুইচ বন্ধ কৰি টেষ্টাৰ ব্যৱহাৰ কৰক। দেৱালত প্লাষ্টিক ৱাল প্লাগ (gitti) আৰু স্ক্ৰু লগাই লেম্পটো পুনৰ সুৰক্ষিতভাৱে স্থাপন কৰক।",
             "predicted_tools_parts": [
-                "Digital Multimeter / Voltage Detector",
-                "Insulated Electrician Plier & Screwdrivers",
-                "6mm Heavy-Duty Rawl Plugs",
-                "Twist-On Wire Connectors / Terminal Block",
-                "1.5-inch Steel Mounting Screws"
-            ],
-            "interdependency_flag": None,
-            "severity_score": 4,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Exposed wiring harness under dynamic tension",
-                "Open circular conduit hole in wall",
-                "Unfastened mounting baseplate dangling"
-            ],
-            "confidence_score": 0.97,
-            "recommended_action": "EXPEDITED DISPATCH: Isolate room lighting circuit, re-terminate wiring inside junction box, and anchor baseplate."
-        }
-    },
-    {
-        "id": "TICKET-LOHIT-CARP",
-        "title": "Screws Stripped Out (Logged as Carpentry)",
-        "tag": "Misclassification · Carpentry to Electricity",
-        "hostel": "Lohit Hostel",
-        "room": "A233",
-        "original_category": "Carpentry",
-        "raw_text": "Wall bracket and lamp came out while adjusting light angle, screws fell down and hole in plaster got bigger. Need carpenter with drill machine to tighten it.",
-        "image_url": "/static/images/decon_study_lamp.jpeg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Electricity",
-            "technical_summary_english": "Student misclassified as Carpentry due to stripped wall anchor screws. Visual inspection confirms asset is a mains-powered DECON electrical wall luminaire connected to electrical conduit. Reassigned to Electricity section; technician must carry masonry drill and wall anchor plugs.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ ৰুমত: কাঠমিস্ত্ৰীৰ পৰিৱৰ্তে বিজুলী মিস্ত্ৰীয়ে ড্ৰিল মেচিন আৰু নতুন গিট্টি লৈ আহি ওলমি থকা লেম্পটো বেৰত মজবুতকৈ লগাই দিয়ক।",
-            "predicted_tools_parts": [
-                "Impact Drill with 6mm Masonry Drill Bit",
-                "6mm Plastic Rawl Plugs (Gitti)",
-                "Pan-Head Sheet Metal Screws 1.5-inch",
-                "Insulated Phase Tester & Wire Stripper"
-            ],
-            "interdependency_flag": None,
-            "severity_score": 3,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Stripped screw sockets in concrete wall",
-                "Lamp base detached during swivel adjustment",
-                "Live electrical wiring exposed"
-            ],
-            "confidence_score": 0.96,
-            "recommended_action": "RECLASSIFY TO ELECTRICITY: Do not dispatch carpenter; send electrician equipped with hammer drill and anchor plugs."
-        }
-    },
-    {
-        "id": "TICKET-LOHIT-CHRONIC",
-        "title": "Wall Lamp Fell Again (3rd Time / Chronic Failure)",
-        "tag": "Chronic Issue · Civil Interdependency",
-        "hostel": "Lohit Hostel",
-        "room": "A233",
-        "original_category": "Electricity",
-        "raw_text": "This is 3rd time posting complaint! The study lamp fell off the wall again after technician just tightened it last week. The plaster inside the hole is completely crumbled, loose screws cannot hold it anymore.",
-        "image_url": "/static/images/decon_study_lamp.jpeg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Electricity",
-            "technical_summary_english": "Recurrent mechanical detachment of wall study lamp (3rd recorded instance). Concrete masonry substrate around circular electrical box has crumbled, causing screw pull-out. Requires civil epoxy/wall putty anchoring before electrical remounting.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 ত ৩য় বাৰৰ অভিযোগ: বেৰৰ প্লাষ্টাৰ খহি পৰাৰ বাবে লেম্পৰ স্ক্ৰু ঢিলা হৈছে। প্ৰথমে চিমেণ্ট পুট্টিৰে গাঁতটো ভৰাই নতুন হেভী প্লাগ লগাই লেম্পটো স্থায়ীভাৱে ফিক্স কৰক।",
-            "predicted_tools_parts": [
-                "Heavy-Duty Chemical / Expansion Wall Anchors",
-                "Quick-Setting Wall Putty / Plaster Patch Compound",
-                "Hammer Drill & 6mm Bit",
-                "Replacement DECON Luminaire Baseplate",
-                "Line Tester & Insulation Tape"
-            ],
-            "interdependency_flag": "Civil Works Required BEFORE Electrical Remounting: Crumbling masonry cavity must be reinforced with filler before drilling fresh expansion anchors.",
-            "severity_score": 4,
-            "chronic_issue_flag": True,
-            "visual_evidence_detected": [
-                "Severe plaster cavity wear around junction box",
-                "Chipped masonry edges with loose debris",
-                "Exposed wiring hanging with repeated fatigue"
-            ],
-            "confidence_score": 0.95,
-            "recommended_action": "CHRONIC ANCHOR FAILURE PROTOCOL: Disallow temporary tightening; reinforce wall cavity with epoxy putty and install heavy-duty expansion sleeves."
-        }
-    },
-    {
-        "id": "TICKET-086103",
-        "title": "Corridor Water Cooler Burst & Flooding",
-        "tag": "Plumbing · Active Water Hazard",
-        "hostel": "Umiam Hostel",
-        "room": "2nd Floor Corridor (Near Rm 274)",
-        "original_category": "Plumbing",
-        "raw_text": "Room 274 ke paas ke water cooler ki pipe me leakage ho gya he , baar baar kuch beep beep noise ata rehta hai usse... Floor pe paani bhar raha hai jaldi koi bhej do!",
-        "image_url": "/static/images/cooler_leak.jpg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Plumbing",
-            "technical_summary_english": "High-pressure potable water inlet PVC pipe ruptured beneath corridor water cooler unit. Active water leakage causing floor flooding with audible electronic filter/float sensor alarm triggered.",
-            "technician_instructions_assamese": "ৰুম ২৭৪ ৰ ওচৰৰ ৱাটাৰ কুলাৰৰ তলৰ ফাটি যোৱা PVC পানীৰ পাইপ তৎকালীনভাৱে মেৰামতি কৰক আৰু বিপিং চেন্সৰ পৰীক্ষা কৰক। মজিয়াত পানী জমা হৈছে।",
-            "predicted_tools_parts": [
-                "1/2-inch Heavy Duty PVC Pipe Coupler",
-                "CPVC Solvent Cement (100ml)",
-                "Adjustable Pipe Wrench (12-inch)",
-                "Water Cooler Float Sensor Probe & Teflon Tape"
+                "Neon tester",
+                "Insulation tape",
+                "Wall plugs (Gitti)",
+                "Screws",
+                "Screwdriver set",
+                "Drill machine"
             ],
             "interdependency_flag": None,
             "severity_score": 5,
             "chronic_issue_flag": False,
             "visual_evidence_detected": [
-                "Transverse fracture in blue PVC water pipe",
-                "Active pressurized water stream escaping",
-                "Substantial puddle and floor slip hazard",
-                "Commercial stainless steel water dispenser unit"
-            ],
-            "confidence_score": 0.98,
-            "recommended_action": "EMERGENCY DISPATCH: Shut off main corridor valve immediately, dispatch plumber with PVC couplers and solvent cement."
-        }
-    },
-    {
-        "id": "TICKET-057088",
-        "title": "LAN Cable Not Working (Misclassified to Electricity)",
-        "tag": "Misclassification · Out of Scope",
-        "hostel": "Kapili Hostel",
-        "room": "Room 308, B-Block",
-        "original_category": "Electricity",
-        "raw_text": "Connecting laptop with lan shows no internet. Ethernet port yellow light blinking continuously, tried 3 different patch cables. Pls fix urgently I have online test tomorrow at 9 AM.",
-        "image_url": "/static/images/lan_port.jpg",
-        "expected_output": {
-            "ipm_validity": False,
-            "corrected_department": "Invalid (IT/Network) - Computer Center",
-            "technical_summary_english": "End-user reports absence of LAN internet connectivity through hostel room RJ45 wall faceplate port. Physical link negotiation indicator active but network unreachable. Issue falls under Computer Center (CC) network infrastructure, not IPM civil/electrical maintenance.",
-            "technician_instructions_assamese": "এইটো আই পি এম (IPM) ৰ অধিকাৰক্ষেত্ৰত নপৰে। এই অভিযোগটো আইটি/কম্পিউটাৰ চেণ্টাৰ (Computer Center) ৰ নেটৱৰ্ক বিভাগলৈ প্ৰেৰণ কৰা হৈছে।",
-            "predicted_tools_parts": [
-                "N/A - Diverted to Computer Center (CC) Network Desk",
-                "Cat6 RJ45 Keystone Jack Punchdown (CC Team)",
-                "Fluke Cable Continuity Tester (CC Team)"
-            ],
-            "interdependency_flag": "Route Out of IPM: Forwarded automatically to IIT Guwahati Computer Center (CC) Network Ticketing Portal.",
-            "severity_score": 2,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Laptop screen displaying 'No Internet Connection' alert",
-                "Hostel Net Room 304 Port 1 wall faceplate",
-                "Yellow Cat5e/Cat6 patch cable plugged into laptop port"
+                "detached wall lamp hanging by live wires",
+                "exposed conduit junction",
+                "stripped wall anchor hole"
             ],
             "confidence_score": 0.99,
-            "recommended_action": "AUTOMATIC RE-ROUTE: IPM rejected; Ticket auto-forwarded to Computer Center Network Ops with priority SLA."
+            "recommended_action": "Immediate Dispatch"
         }
     },
+
+    # ----------------------------------------------------
+    # NON-IPM COMPLAINTS (NO IMAGE) - 2 SCENARIOS
+    # ----------------------------------------------------
     {
-        "id": "TICKET-142046",
-        "title": "Violently Shaking Fan (4th Repeated Complaint)",
-        "tag": "Electricity · Chronic Hazard",
-        "hostel": "Kameng Hostel",
-        "room": "Room 119",
+        "id": "TICKET-NON-IPM-LAN",
+        "title": "LAN Outage: 'Connecting laptop with lan shows no internet'",
+        "tag": "Non-IPM · CCC Portal Redirect",
+        "hostel": "Kapili Hostel",
+        "room": "Room 308",
         "original_category": "Electricity",
-        "raw_text": "My fan is creating very noise like it will come down and this is 4 th time when I am posting complaint! Every time technician comes and adds oil then leaves! It shakes violently on high speed and screws are loose!",
-        "image_url": "/static/images/fan_issue.jpg",
+        "raw_text": "Connecting laptop with lan shows no internet",
+        "image_url": None,
         "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Electricity",
-            "technical_summary_english": "Severe mechanical instability and motor bearing failure in ceiling fan. Severe structural wobble and vibration posing detachment hazard. Historical record confirms 4th consecutive complaint without permanent remediation.",
-            "technician_instructions_assamese": "পুৰণি ফেনখন সম্পূৰ্ণভাৱে খুলি নতুন ১২০০ মিমি চিলিং ফেন আৰু মজবুত ডাউনৰড ক্ল্যাম্প লগাওক (৪ৰ্থ বাৰৰ অভিযোগ, তেল দিয়াৰ সলনি ফেন সলনি কৰক)।",
+            "ipm_validity": False,
+            "corrected_department": "Invalid (IT/Network) - Computer & Communication Centre (CCC)",
+            "technical_summary_english": "Not IPM section part. The user is reporting a network connectivity issue where connecting a laptop via LAN does not provide internet access. This is an IT/Network infrastructure issue, not a physical infrastructure (IPM) issue. Submit in CCC complaint portal.",
+            "technician_instructions_assamese": "এইটো আই.পি.এম. (IPM) বিভাগৰ কাম নহয়। অনুগ্ৰহ কৰি এই অভিযোগটো চি.চি.চি. (CCC) পৰ্টেলত দাখিল কৰক।",
             "predicted_tools_parts": [
-                "Complete New 1200mm Heavy-Duty Ceiling Fan Unit",
-                "Reinforced Downrod & Shackle Kit with Split Pin",
-                "Insulated Heavy Screwdriver Set",
-                "Step Ladder & Safety Harness"
+                "N/A - Submit in CCC complaint portal"
             ],
-            "interdependency_flag": None,
-            "severity_score": 4,
-            "chronic_issue_flag": True,
-            "visual_evidence_detected": [
-                "Deformed rusted downrod shank",
-                "Exposed wiring junction at ceiling hook",
-                "Visible paint peeling and motor housing distress"
-            ],
-            "confidence_score": 0.97,
-            "recommended_action": "ASSET REPLACEMENT PROTOCOL: Disallow temporary patching/lubrication. Dispatch electrician with full new ceiling fan replacement unit."
+            "interdependency_flag": "Out of IPM Scope: Submit in CCC complaint portal (Computer & Communication Centre).",
+            "severity_score": 1,
+            "chronic_issue_flag": False,
+            "visual_evidence_detected": [],
+            "confidence_score": 0.99,
+            "recommended_action": "Not IPM section part. Submit in CCC complaint portal."
         }
     },
     {
-        "id": "TICKET-141190",
-        "title": "Crumbling Wall Cracks (Cross-Trade Dependency)",
-        "tag": "Civil Works · Trade Dependency",
-        "hostel": "Siang Hostel",
-        "room": "Room 205",
+        "id": "TICKET-NON-IPM-FURN",
+        "title": "Missing Furniture: 'no table and chair in my hostel room'",
+        "tag": "Non-IPM · Hostel Office Redirect",
+        "hostel": "Disang Hostel",
+        "room": "Room 105",
         "original_category": "Carpentry",
-        "raw_text": "There are some holes and deep cracks in the walls as in attached image. I want to fix my study bookshelf and curtain brackets but the masonry concrete is completely crumbling and falling out.",
-        "image_url": "/static/images/wall_damage.jpg",
+        "raw_text": "no table and chair in my hostel room",
+        "image_url": None,
         "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Other Civil Works",
-            "technical_summary_english": "Structural brick masonry damage and plaster delamination around study area. Exposed brickwork and conduit cavity prevent mechanical anchoring for carpentry fixtures until structural mortar repair and curing are complete.",
-            "technician_instructions_assamese": "প্ৰথমে চিভিল মিস্ত্ৰীয়ে বেৰৰ ফাট আৰু খহি পৰা ইটাৰ গাঁথনি চিমেণ্ট মৰ্টাৰেৰে মেৰামতি কৰক। শুকোৱাৰ পাছতহে কাঠমিস্ত্ৰীয়ে বুকশ্বেল্ফ আৰু পৰ্দাৰ ব্ৰেকেট লগাব।",
+            "ipm_validity": False,
+            "corrected_department": "Invalid (Hostel Administration) - Hostel Office",
+            "technical_summary_english": "Not IPM section part. The student is reporting missing room furniture (table and chair) in Disang Hostel, Room 105. This is an administrative/hostel inventory issue, not a physical maintenance or carpentry repair task under IPM. Submit in hostel office.",
+            "technician_instructions_assamese": "এইটো আই.পি.এম. (IPM) বিভাগৰ কাম নহয়। অনুগ্ৰহ কৰি হোষ্টেল কাৰ্যালয়ত যোগাযোগ কৰক।",
             "predicted_tools_parts": [
-                "Quick-setting Portland Cement Mortar (10kg)",
-                "Polymer Wall Putty & Bonding Primer",
-                "Pointing & Plastering Trowel Set",
-                "Wire Brush & Masonry Chisel"
+                "N/A - Submit in hostel office"
             ],
-            "interdependency_flag": "Civil Works Required BEFORE Carpentry: Masonry patching and curing (24h) must precede any bookshelf/curtain drilling by Carpentry team.",
-            "severity_score": 3,
+            "interdependency_flag": "Out of IPM Scope: Submit in hostel office (Caretaker / Warden / HAB Office).",
+            "severity_score": 1,
             "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Deep structural fissure exposing underlying red brick course",
-                "Dislodged conduit wire casing near switchboard",
-                "Loose concrete debris fallen onto floor and desk"
-            ],
-            "confidence_score": 0.96,
-            "recommended_action": "SEQUENTIAL DISPATCH: Phase 1 Civil Masonry repairs today; Schedule Phase 2 Carpentry mounting 48 hours post-curing."
-        }
-    },
-    {
-        "id": "TICKET-105873",
-        "title": "Broken Window Handle & Jammed Sash",
-        "tag": "Carpentry · Weather Risk",
-        "hostel": "Manas Hostel",
-        "room": "Room 412, Block C",
-        "original_category": "Carpentry",
-        "raw_text": "Windows are not opening properly, jammed tight in monsoon and also there is no handle in the windows, rain water coming inside my room and wetting bedsheets.",
-        "image_url": "/static/images/window_broken.jpg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Carpentry",
-            "technical_summary_english": "Missing window casement latch handle with sheared screw anchors. Wooden sash swollen from monsoon moisture causing frame binding and preventing watertight closure.",
-            "technician_instructions_assamese": "খিৰিকীৰ হেণ্ডেল নতুনকৈ লগাওক, ফুলি উঠা কাঠৰ ফ্ৰেম ৰেন্দা মাৰি সমান কৰক যাতে বৰষুণৰ পানী সোমাব নোৱাৰে।",
-            "predicted_tools_parts": [
-                "Standard Heavy-Duty Aluminum Casement Window Handle",
-                "M4.5 × 35mm Stainless Wood Screws & Rawl Plugs",
-                "Manual Wood Smoothing Plane",
-                "Silicone Waterproof Weatherstrip & Lubricant"
-            ],
-            "interdependency_flag": None,
-            "severity_score": 3,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Stripped screw socket holes on wooden casement stile",
-                "Missing sash fastener/handle hardware",
-                "Water ingress marks on window sill and frame"
-            ],
-            "confidence_score": 0.95,
-            "recommended_action": "DISPATCH CARPENTER: Bring standard replacement latch handles, wood plane, and waterproof weatherseal."
-        }
-    },
-    {
-        "id": "TICKET-082936",
-        "title": "Ceiling Fan Speed Defect (Capacitor Failure)",
-        "tag": "Electricity · Single Visit Fix",
-        "hostel": "Dihing Hostel",
-        "room": "Room 114",
-        "original_category": "Electricity",
-        "raw_text": "Change Fan Condeser. Room fan is running on very slow speed even when regulator is set to 5. Humming noise coming from the fan motor.",
-        "image_url": "/static/images/fan_issue.jpg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Electricity",
-            "technical_summary_english": "Single-phase induction motor run-capacitor degradation causing severe rpm drop and magnetic hum under normal supply voltage.",
-            "technician_instructions_assamese": "ফেনৰ ২.৫ মাইক্ৰ'ফাৰাড কণ্ডেনচাৰ (Capacitor) সলনি কৰক আৰু ৰেগুলেটৰ স্পীড পৰীক্ষা কৰক।",
-            "predicted_tools_parts": [
-                "2.5 uF 440V AC Fan Run Capacitor",
-                "Insulated Phillips & Flat Screwdrivers",
-                "Wire Stripper & PVC Electrical Insulation Tape",
-                "Digital Multimeter / Capacitance Tester"
-            ],
-            "interdependency_flag": None,
-            "severity_score": 2,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "Standard 3-blade ceiling fan assembly",
-                "Capacitor canister housing situated above motor shell"
-            ],
-            "confidence_score": 0.98,
-            "recommended_action": "DISPATCH ELECTRICIAN: Carry 2.5uF capacitors directly to avoid return trip to electrical substation."
+            "visual_evidence_detected": [],
+            "confidence_score": 0.99,
+            "recommended_action": "Not IPM section part. Submit in hostel office."
         }
     }
 ]

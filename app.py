@@ -27,7 +27,13 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024 * 1024  # 32 MB max
 @app.route("/")
 def index():
     demos = get_all_demos()
-    return render_template("index.html", demos=demos)
+    is_blank = request.args.get("blank", "false").lower() in ["true", "1"]
+    return render_template("index.html", demos=demos, is_blank=is_blank)
+
+@app.route("/new")
+def new_ticket():
+    demos = get_all_demos()
+    return render_template("index.html", demos=demos, is_blank=True)
 
 @app.route("/api/demos", methods=["GET"])
 def api_get_demos():
