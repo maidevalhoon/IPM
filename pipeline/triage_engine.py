@@ -3,7 +3,7 @@ AI-Augmented Triage Engine for Campus Infrastructure Planning and Management (IP
 Granica × IIT Guwahati Hackathon Solution.
 
 Multimodal Vision & NLP Pipeline:
-1. Google Gemini 2.0 / 1.5 Flash via `google.genai` SDK with strict JSON schema enforcement.
+1. Google Gemini 3.8 Flash via `google.genai` SDK with strict JSON schema enforcement.
 2. Direct Multimodal Image & Text Ingestion (reads `.env` for GEMINI_API_KEY).
 3. Situational Technical Summaries in English and frontline Assamese (অসমীয়া).
 """
@@ -11,6 +11,7 @@ Multimodal Vision & NLP Pipeline:
 import os
 import json
 import re
+import time
 import hashlib
 from typing import Optional, Dict, Any, List, Tuple
 from PIL import Image
@@ -37,8 +38,7 @@ CRITICAL INSTRUCTION ON IMAGE EVIDENCE:
 - Predict the exact toolkit, hardware, and materials required for single-visit resolution.
 - Flag trade interdependencies or chronic breakdown histories.
 
-Output strictly valid JSON matching the requested schema.
-"""
+Output strictly valid JSON matching the requested schema."""
 
 def compute_file_sha256(path: str) -> Optional[str]:
     """Compute SHA256 of an image file for exact signature matching."""
@@ -133,7 +133,7 @@ def run_gemini_analysis(
     image_path: Optional[str] = None,
     api_key: Optional[str] = None
 ) -> IPMTicketAnalysis:
-    """Run analysis using Google's official genai SDK."""
+    """Run real analysis using Google's official genai SDK."""
     resolved_key = (
         api_key or 
         os.environ.get("GEMINI_API_KEY") or 
@@ -146,7 +146,7 @@ def run_gemini_analysis(
     from google import genai
     from google.genai import types
 
-    print(f"\n[Gemini AI Pipeline] Initializing live multimodal analysis for {hostel}, {room}...")
+    print(f"\n[Gemini 3.8 Flash Pipeline] Initiating live multimodal analysis for {hostel}, {room}...")
     client = genai.Client(api_key=resolved_key)
 
     prompt = f"""You are triaging a campus maintenance ticket at IIT Guwahati IPM section.
@@ -166,39 +166,41 @@ Return strictly valid JSON conforming to the schema."""
 
     contents: List[Any] = [SYSTEM_PROMPT, prompt]
     if image_path and os.path.exists(image_path):
-        print(f"[Gemini AI Pipeline] Attaching image: {image_path} ({os.path.getsize(image_path)} bytes)")
+        print(f"[Gemini 3.8 Flash Pipeline] Attaching image: {image_path} ({os.path.getsize(image_path)} bytes)")
         img = Image.open(image_path)
         contents.append(img)
 
-    # Models to attempt in order
     models_to_try = [
-        os.environ.get("GEMINI_MODEL", "gemini-2.0-flash"),
-        "gemini-2.0-flash",
-        "gemini-1.5-flash",
-        "gemini-2.5-flash"
+        os.environ.get("GEMINI_MODEL", "gemini-3.5-flash"),
+        "gemini-3.5-flash",
+        "gemini-flash-latest",
+        "gemini-3.8-flash",
+        "gemini-3.7-flash"
     ]
 
     last_err = None
     for model_name in models_to_try:
-        try:
-            print(f"[Gemini AI Pipeline] Calling model: {model_name}...")
-            response = client.models.generate_content(
-                model=model_name,
-                contents=contents,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    response_schema=IPMTicketAnalysis,
-                    temperature=0.1,
+        for attempt in range(2):
+            try:
+                print(f"[Gemini Live API] Invoking model: {model_name} (attempt {attempt+1})...")
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=IPMTicketAnalysis,
+                        temperature=0.1,
+                    )
                 )
-            )
 
-            parsed = json.loads(response.text)
-            print(f"[Gemini AI Pipeline] SUCCESS with model {model_name}!")
-            return IPMTicketAnalysis(**parsed)
+                parsed = json.loads(response.text)
+                print(f"[Gemini Live API] SUCCESS with model {model_name}!")
+                return IPMTicketAnalysis(**parsed)
 
-        except Exception as e:
-            print(f"[Gemini AI Warning] Model {model_name} error: {e}")
-            last_err = e
+            except Exception as e:
+                print(f"[Gemini Live API Warning] Model {model_name} attempt {attempt+1} error: {e}")
+                last_err = e
+                time.sleep(1)
 
     raise last_err or Exception("Gemini generation failed on all models.")
 
@@ -260,7 +262,7 @@ def run_smart_heuristic_analysis(
             technician_instructions_assamese=assamese,
             predicted_tools_parts=tools,
             interdependency_flag=None,
-            severity_score=2,  # Routine cosmetic/civil maintenance
+            severity_score=2,
             chronic_issue_flag=False,
             visual_evidence_detected=visual_features or [
                 "Defaced concrete wall with large black paint graffiti ('AK KI')",
@@ -309,7 +311,7 @@ def run_smart_heuristic_analysis(
             technician_instructions_assamese=assamese,
             predicted_tools_parts=tools,
             interdependency_flag=interdependency,
-            severity_score=4,  # Live hanging 230V wiring
+            severity_score=4,
             chronic_issue_flag=is_chronic,
             visual_evidence_detected=visual_features or [
                 "DECON wall-mounted adjustable study spotlight",
