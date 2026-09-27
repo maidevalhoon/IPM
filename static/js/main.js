@@ -394,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
       "paint the wall",
       "Connecting laptop with lan shows no internet",
       "no table and chair in my hostel room",
-      "Study lamp fell from wall, hanging on wires current coming",
       "plaster chipping off and graffiti on wall"
     ];
     const picked = samples[Math.floor(Math.random() * samples.length)];

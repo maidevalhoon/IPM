@@ -79,7 +79,7 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
     },
 
     # ----------------------------------------------------
-    # IMAGE 2: static/images/decon_study_lamp.jpeg - 2 SCENARIOS
+    # IMAGE 2: static/images/decon_study_lamp.jpeg - 1 SCENARIO
     # ----------------------------------------------------
     {
         "id": "TICKET-LAMP-01",
@@ -114,40 +114,6 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
             ],
             "confidence_score": 0.98,
             "recommended_action": "2-PHASE DISPATCH: Phase 1 Civil gap filling and plaster patching first; Phase 2 Electrical remounting post-setting."
-        }
-    },
-    {
-        "id": "TICKET-LAMP-02",
-        "title": "Lamp: 'Study lamp fell from wall, hanging on wires current coming'",
-        "tag": "Lamp Image · Shock Hazard (Level 5)",
-        "hostel": "Lohit Hostel",
-        "room": "A233",
-        "original_category": "Electricity",
-        "raw_text": "Study lamp fell from wall, hanging on wires current coming",
-        "image_url": "/static/images/decon_study_lamp.jpeg",
-        "expected_output": {
-            "ipm_validity": True,
-            "corrected_department": "Electricity",
-            "technical_summary_english": "The wall-mounted study lamp in Lohit Hostel, Room A233, has detached from its mounting point and is currently suspended by its live electrical wiring. The student reports active current flowing through the exposed wires, posing an immediate electrical shock and short-circuit hazard. The wall plaster around the junction box is damaged, requiring re-anchoring with wall plugs and screws.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালৰ পৰা ষ্টাডী লেম্পটো খহি পৰিছে আৰু ই লাইভ তাৰত ওলমি আছে। বিদ্যুৎ স্পৰ্শৰ তীব্ৰ বিপদ আছে। কাম আৰম্ভ কৰাৰ আগতে মেইন চুইচ বন্ধ কৰি টেষ্টাৰ ব্যৱহাৰ কৰক। দেৱালত প্লাষ্টিক ৱাল প্লাগ (gitti) আৰু স্ক্ৰু লগাই লেম্পটো পুনৰ সুৰক্ষিতভাৱে স্থাপন কৰক।",
-            "predicted_tools_parts": [
-                "Neon tester",
-                "Insulation tape",
-                "Wall plugs (Gitti)",
-                "Screws",
-                "Screwdriver set",
-                "Drill machine"
-            ],
-            "interdependency_flag": None,
-            "severity_score": 5,
-            "chronic_issue_flag": False,
-            "visual_evidence_detected": [
-                "detached wall lamp hanging by live wires",
-                "exposed conduit junction",
-                "stripped wall anchor hole"
-            ],
-            "confidence_score": 0.99,
-            "recommended_action": "Immediate Dispatch"
         }
     },
 
