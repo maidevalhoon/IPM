@@ -29,9 +29,14 @@ CRITICAL INSTRUCTIONS:
      Set ipm_validity = false, corrected_department = 'Invalid (IT/Network) - Computer & Communication Centre (CCC)', and explicitly instruct: 'Not IPM section part. Submit in CCC complaint portal.'
    - If the complaint is missing room furniture (e.g. 'no table and chair in my hostel room'):
      Set ipm_validity = false, corrected_department = 'Invalid (Hostel Administration) - Hostel Office', and explicitly instruct: 'Not IPM section part. Submit in hostel office.'
-2. MULTIMODAL PHYSICAL EVIDENCE:
+2. MULTIMODAL PHYSICAL EVIDENCE & SEQUENCING:
    - For wall images with graffiti/paint: Reclassify to 'Other Civil Works' (Painting & Masonry). Do not classify as Carpentry or Sanitary. Specify wall putty, paint, sandpaper, and brush.
-   - For wall study lamps unhinged on live wires: Reclassify to 'Electricity'. Do not classify as Plumbing or Carpentry. Flag electrical safety risk and specify wall plugs, screws, tester, screwdriver, insulation tape.
+   - For wall study lamps detached/unhinged from wall plaster with hanging wires: Reclassify to 'Electricity' (Active shock hazard). MANDATE A 2-PHASE SEQUENTIAL WORKFLOW:
+     Phase 1: Civil Works to fill the gap/hole in the wall and patch crumbling masonry with quick-setting wall putty / white cement.
+     Phase 2: Electrical Works to drill fresh anchor points, remount the lamp securely with wall plugs (gitti) and screws, and verify circuit integrity with a line tester.
+     Set interdependency_flag = '2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.'
+     List tools categorized into Phase 1 (Civil) and Phase 2 (Electrical).
+     Provide explicit 2-phase directions in Assamese technician instructions.
 3. FRONTLINE DIRECTIVE (ASSAMESE):
    - Provide direct, clear, colloquial Assamese instructions for the local technician indicating exactly what tools to carry and actions to take on site.
 
@@ -85,7 +90,10 @@ CRITICAL ROUTING RULES:
    recommended_action = 'Not IPM section part. Submit in hostel office.'
 3. If an image is attached, inspect it thoroughly:
    - Wall graffiti / chipped plaster / painting: Reclassify to Other Civil Works.
-   - Lamp unhinged on wires: Reclassify to Electricity (Active shock hazard).
+   - Lamp unhinged / detached on wires: Reclassify to Electricity (Active shock hazard). Break down repair into 2 phases:
+     Phase 1 Civil Works: Fill gap in wall and patch crumbling cavity with wall putty / white cement.
+     Phase 2 Electrical Works: Remount study lamp with wall plugs and screws, connect wiring safely.
+     Set interdependency_flag = '2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.'
 Provide situational English summary and direct Assamese instructions for the technician."""
 
     contents: List[Any] = [SYSTEM_PROMPT, prompt]
@@ -194,20 +202,28 @@ def run_smart_heuristic_analysis(
             recommended_action="Scheduled Repair"
         )
 
-    # 4. Lamp / Electrical
+    # 4. Lamp / Electrical (2-Phase Breakdown)
     dept = "Electricity"
     return IPMTicketAnalysis(
         ipm_validity=True,
         corrected_department=dept,
-        technical_summary_english=f"The wall-mounted study lamp in {hostel}, {room} has detached from its mounting and is hanging precariously by its electrical wiring. This exposes live connections, posing an electrical shock and short-circuit hazard. The wall mounting hole is also damaged and requires patching.",
-        technician_instructions_assamese=f"{hostel} ৰ {room} ত দেৱালত থকা ষ্টাডী লেম্পটো খহি ওলমি আছে। ইয়াৰ বাবে বৈদ্যুতিক তাঁৰসমূহ ওলাই পৰিছে যিটো বিপদজনক হ’ব পাৰে। টেষ্টাৰ, স্ক্ৰু আৰু ৱাল প্লাগ লগত লৈ গৈ লেম্পটো পুনৰ দেৱালত সুৰক্ষিতভাৱে লগাই দিয়ক।",
-        predicted_tools_parts=["Wall plugs", "Screws", "Line tester", "Screwdriver", "Insulation tape", "White cement / Wall putty"],
-        interdependency_flag=None,
+        technical_summary_english=f"Visual analysis confirms wall-mounted study lamp detached from electrical junction box in {hostel}, {room}, and suspended precariously on live electrical wiring. The wall mounting cavity is stripped and fractured. Requires 2-Phase Sequential Repair: Phase 1 Civil Works to fill and patch the crumbling wall gap/hole with polymer putty/mortar and allow to set, followed by Phase 2 Electrical Works to drill fresh anchor holes, secure the baseplate with wall plugs and screws, and verify circuit integrity.",
+        technician_instructions_assamese=f"{hostel} ৰ {room} ত ২টা পৰ্যায়ৰ কাম (2-Phase Work): প্ৰথম পৰ্যায়ত চিভিল মিস্ত্ৰীয়ে দেৱালৰ খহি পৰা ফাঁক আৰু ফুটাটো ৱাল পুটি/চিমেণ্টেৰে ভৰাই সমান কৰক। শুকোৱাৰ পাছত দ্বিতীয় পৰ্যায়ত বিজুলী মিস্ত্ৰীয়ে নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই লেম্পটো মজবুতকৈ স্থাপন কৰক আৰু টেষ্টাৰেৰে বিজুলী পৰীক্ষা কৰক।",
+        predicted_tools_parts=[
+            "Phase 1 (Civil): Quick-Setting Wall Putty & White Cement (2kg)",
+            "Phase 1 (Civil): Steel Putty Knife & Surface Scraper",
+            "Phase 2 (Electrical): 6mm Nylon Wall Anchor Plugs (Gitti)",
+            "Phase 2 (Electrical): 1.5-inch Self-Tapping Screws (M4)",
+            "Phase 2 (Electrical): Insulated Line Phase Tester & Screwdriver Set",
+            "Phase 2 (Electrical): Cordless Drill with 6mm Masonry Bit",
+            "Phase 2 (Electrical): PVC Electrical Insulation Tape"
+        ],
+        interdependency_flag="2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.",
         severity_score=4,
         chronic_issue_flag=False,
-        visual_evidence_detected=["detached wall study lamp", "hanging exposed electrical wiring", "damaged wall mounting hole"],
+        visual_evidence_detected=["detached wall study lamp", "hanging exposed electrical wiring", "damaged crumbling plaster cavity around mounting hole"],
         confidence_score=0.98,
-        recommended_action="Immediate Dispatch"
+        recommended_action="2-PHASE DISPATCH: Phase 1 Civil gap filling and plaster patching first; Phase 2 Electrical remounting post-setting."
     )
 
 def analyze_ticket(

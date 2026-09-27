@@ -52,7 +52,7 @@
     </div>
     <div class="demo-pills-carousel" id="demoPills">
       {% for demo in demos %}
-      <button class="demo-pill-btn {% if loop.first and not is_blank %}active{% endif %}" data-ticket-id="{{ demo.id }}">
+      <button class="demo-pill-btn {% if demo.id == 'TICKET-LAMP-01' and not is_blank %}active{% endif %}" data-ticket-id="{{ demo.id }}">
         <span class="pill-id">{{ demo.id }}</span>
         <span class="pill-name">{{ demo.title }}</span>
         <span class="pill-tag">{{ demo.tag }}</span>
@@ -269,14 +269,16 @@
         </div>
 
         <!-- 4. Trade Interdependency Alert (Conditional) -->
-        <div class="card interdependency-card" id="interdependencyCard" style="display: none;">
+        <div class="card interdependency-card" id="interdependencyCard" style="{{ 'display: none;' if is_blank else 'display: flex;' }}">
           <div class="inter-header">
             <span class="inter-icon">[TRADE INTERDEPENDENCY]</span>
             <strong>Multi-Trade Interdependency & Sequencing</strong>
           </div>
-          <p id="interdependencyText" class="inter-text"></p>
+          <p id="interdependencyText" class="inter-text">2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.</p>
           <div class="sequence-steps" id="sequenceSteps">
-            <!-- Dynamically generated -->
+            <div class="seq-node">Phase 1: Civil Masonry (Fill Gap in Wall & Patch)</div>
+            <div class="seq-arrow">-&gt; Setting / Curing -&gt;</div>
+            <div class="seq-node">Phase 2: Electrical Works (Remount Lamp & Wire)</div>
           </div>
         </div>
 
@@ -287,7 +289,13 @@
             <span class="badge-stock">Warehouse In-Stock: Checked</span>
           </div>
           <ul class="tools-checklist" id="toolsList">
-            <!-- Dynamic tools list -->
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 1 (Civil): Quick-Setting Wall Putty & White Cement (2kg)</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 1 (Civil): Steel Putty Knife & Surface Scraper</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 2 (Electrical): 6mm Nylon Wall Anchor Plugs (Gitti)</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 2 (Electrical): 1.5-inch Self-Tapping Screws (M4)</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 2 (Electrical): Insulated Line Phase Tester & Screwdriver Set</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 2 (Electrical): Cordless Drill with 6mm Masonry Bit</span></li>
+            <li class="tool-item"><input type="checkbox" class="tool-checkbox" checked><span>Phase 2 (Electrical): PVC Electrical Insulation Tape</span></li>
           </ul>
         </div>
 
@@ -295,7 +303,7 @@
         <div class="card summary-card">
           <div class="card-label">Dispatcher Situational Summary (English)</div>
           <p class="technical-text" id="technicalSummaryText">
-            The wall-mounted study lamp in room A233 has detached from its mounting and is hanging precariously by its electrical wiring. This exposes live connections, posing an electrical shock and short-circuit hazard. The wall mounting hole is also damaged and requires patching.
+            Visual analysis confirms wall-mounted study lamp detached from electrical junction box in Lohit Hostel, Room A233, and suspended precariously on live electrical wiring. The wall mounting cavity is stripped and fractured. Requires 2-Phase Sequential Repair: Phase 1 Civil Works to fill and patch the crumbling wall gap/hole with polymer putty/mortar and allow to set, followed by Phase 2 Electrical Works to drill fresh anchor holes, secure the baseplate with wall plugs and screws, and verify circuit integrity.
           </p>
         </div>
 
@@ -315,7 +323,7 @@
             </div>
           </div>
           <div class="assamese-body" id="assameseText">
-            লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালত থকা ষ্টাডী লেম্পটো খহি ওলমি আছে। ইয়াৰ বাবে বৈদ্যুতিক তাঁৰসমূহ ওলাই পৰিছে যিটো বিপদজনক হ’ব পাৰে। টেষ্টাৰ, স্ক্ৰু আৰু ৱাল প্লাগ লগত লৈ গৈ লেম্পটো পুনৰ দেৱালত সুৰক্ষিতভাৱে লগাই দিয়ক।
+            লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত ২টা পৰ্যায়ৰ কাম (2-Phase Work): প্ৰথম পৰ্যায়ত চিভিল মিস্ত্ৰীয়ে দেৱালৰ খহি পৰা ফাঁক আৰু ফুটাটো ৱাল পুটি/চিমেণ্টেৰে ভৰাই সমান কৰক। শুকোৱাৰ পাছত দ্বিতীয় পৰ্যায়ত বিজুলী মিস্ত্ৰীয়ে নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই লেম্পটো মজবুতকৈ স্থাপন কৰক আৰু টেষ্টাৰেৰে বিজুলী পৰীক্ষা কৰক।
           </div>
         </div>
 
@@ -323,7 +331,7 @@
         <div class="dispatch-action-bar">
           <button id="dispatchNowBtn" class="btn btn-success btn-lg flex-1">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Dispatch Work Order to Electrician</span>
+            <span>Dispatch 2-Phase Work Order (Civil -> Electricity)</span>
           </button>
         </div>
 
@@ -357,6 +365,11 @@
         <div><strong>Location / Room:</strong> <span id="slipRoom">A233</span></div>
         <div><strong>Assigned Trade:</strong> <span id="slipDept">Electricity</span></div>
         <div><strong>Severity Score:</strong> <span id="slipSeverity">Level 4 (Electrical Hazard)</span></div>
+      </div>
+
+      <div class="slip-section" id="slipInterdependencyBox" style="display: none;">
+        <h5>MULTI-TRADE SEQUENCING & PHASING:</h5>
+        <p id="slipInterdependency" style="font-weight: 600;"></p>
       </div>
 
       <div class="slip-section">

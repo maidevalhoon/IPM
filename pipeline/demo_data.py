@@ -84,7 +84,7 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
     {
         "id": "TICKET-LAMP-01",
         "title": "Lamp: 'broken thing.' (Misclassified to Plumbing)",
-        "tag": "Lamp Image · Plumbing -> Electricity",
+        "tag": "Lamp Image · 2-Phase Breakdown (Civil Gap Fill -> Electrical)",
         "hostel": "Lohit Hostel",
         "room": "A233",
         "original_category": "Plumbing",
@@ -93,26 +93,27 @@ DEMO_TICKETS: List[Dict[str, Any]] = [
         "expected_output": {
             "ipm_validity": True,
             "corrected_department": "Electricity",
-            "technical_summary_english": "The wall-mounted study lamp in room A233 has detached from its mounting and is hanging precariously by its electrical wiring. This exposes live connections, posing an electrical shock and short-circuit hazard. The wall mounting hole is also damaged and requires patching.",
-            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত দেৱালত থকা ষ্টাডী লেম্পটো খহি ওলমি আছে। ইয়াৰ বাবে বৈদ্যুতিক তাঁৰসমূহ ওলাই পৰিছে যিটো বিপদজনক হ’ব পাৰে। টেষ্টাৰ, স্ক্ৰু আৰু ৱাল প্লাগ লগত লৈ গৈ লেম্পটো পুনৰ দেৱালত সুৰক্ষিতভাৱে লগাই দিয়ক। প্ৰয়োজন হ'লে দেৱালৰ ফুটাটো মেৰামতি কৰক।",
+            "technical_summary_english": "Visual analysis confirms wall-mounted study lamp detached from electrical junction box in Lohit Hostel, Room A233, and suspended precariously on live electrical wiring. The wall mounting cavity is stripped and fractured. Requires 2-Phase Sequential Repair: Phase 1 Civil Works to fill and patch the crumbling wall gap/hole with polymer putty/mortar and allow to set, followed by Phase 2 Electrical Works to drill fresh anchor holes, secure the baseplate with wall plugs and screws, and verify circuit integrity.",
+            "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত ২টা পৰ্যায়ৰ কাম (2-Phase Work): প্ৰথম পৰ্যায়ত চিভিল মিস্ত্ৰীয়ে দেৱালৰ খহি পৰা ফাঁক আৰু ফুটাটো ৱাল পুটি/চিমেণ্টেৰে ভৰাই সমান কৰক। শুকোৱাৰ পাছত দ্বিতীয় পৰ্যায়ত বিজুলী মিস্ত্ৰীয়ে নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই লেম্পটো মজবুতকৈ স্থাপন কৰক আৰু টেষ্টাৰেৰে বিজুলী পৰীক্ষা কৰক।",
             "predicted_tools_parts": [
-                "Wall plugs",
-                "Screws",
-                "Line tester",
-                "Screwdriver",
-                "Insulation tape",
-                "White cement / Wall putty"
+                "Phase 1 (Civil): Quick-Setting Wall Putty & White Cement (2kg)",
+                "Phase 1 (Civil): Steel Putty Knife & Surface Scraper",
+                "Phase 2 (Electrical): 6mm Nylon Wall Anchor Plugs (Gitti)",
+                "Phase 2 (Electrical): 1.5-inch Self-Tapping Screws (M4)",
+                "Phase 2 (Electrical): Insulated Line Phase Tester & Screwdriver Set",
+                "Phase 2 (Electrical): Cordless Drill with 6mm Masonry Bit",
+                "Phase 2 (Electrical): PVC Electrical Insulation Tape"
             ],
-            "interdependency_flag": None,
+            "interdependency_flag": "2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.",
             "severity_score": 4,
             "chronic_issue_flag": False,
             "visual_evidence_detected": [
                 "detached wall study lamp",
                 "hanging exposed electrical wiring",
-                "damaged wall mounting hole"
+                "damaged crumbling plaster cavity around mounting hole"
             ],
             "confidence_score": 0.98,
-            "recommended_action": "Immediate Dispatch"
+            "recommended_action": "2-PHASE DISPATCH: Phase 1 Civil gap filling and plaster patching first; Phase 2 Electrical remounting post-setting."
         }
     },
     {

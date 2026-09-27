@@ -189,11 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
       interdependencyCard.style.display = 'flex';
       interdependencyText.textContent = data.interdependency_flag;
 
-      if (data.interdependency_flag.toLowerCase().includes('before')) {
+      const flagLower = data.interdependency_flag.toLowerCase();
+      if (flagLower.includes('phase') || flagLower.includes('before') || flagLower.includes('civil') || flagLower.includes('gap')) {
         sequenceSteps.innerHTML = `
-          <div class="seq-node">Phase 1: Civil Masonry Patch</div>
-          <div class="seq-arrow">-&gt; Curing -&gt;</div>
-          <div class="seq-node">Phase 2: Electrical Remounting</div>
+          <div class="seq-node">Phase 1: Civil Masonry (Fill Gap in Wall & Patch)</div>
+          <div class="seq-arrow">-&gt; Setting / Curing -&gt;</div>
+          <div class="seq-node">Phase 2: Electrical Works (Remount Lamp & Wire)</div>
         `;
       } else {
         sequenceSteps.innerHTML = `<div class="seq-node">Inter-Department Routing / Verification</div>`;
@@ -508,6 +509,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('slipSeverity').textContent = `Level ${currentTriageData.severity_score}`;
     document.getElementById('slipSummary').textContent = currentTriageData.technical_summary_english;
     document.getElementById('slipAssamese').textContent = currentTriageData.technician_instructions_assamese;
+
+    const slipInterBox = document.getElementById('slipInterdependencyBox');
+    const slipInterText = document.getElementById('slipInterdependency');
+    if (currentTriageData.interdependency_flag && currentTriageData.interdependency_flag.trim().toLowerCase() !== 'none') {
+      if (slipInterBox) slipInterBox.style.display = 'block';
+      if (slipInterText) slipInterText.textContent = currentTriageData.interdependency_flag;
+    } else {
+      if (slipInterBox) slipInterBox.style.display = 'none';
+    }
 
     const slipTools = document.getElementById('slipTools');
     slipTools.innerHTML = '';
