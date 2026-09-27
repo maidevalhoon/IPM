@@ -8,6 +8,41 @@ from typing import List, Dict, Any
 
 DEMO_TICKETS: List[Dict[str, Any]] = [
     {
+        "id": "TICKET-UMIAM-PAINT",
+        "title": "Wall Graffiti & Paint Defacement ('paint the wall')",
+        "tag": "Civil Works · Misclassified to Carpentry",
+        "hostel": "Umiam Hostel",
+        "room": "Room 102",
+        "original_category": "Carpentry",
+        "raw_text": "paint the wall",
+        "image_url": "/static/images/image.png",
+        "expected_output": {
+            "ipm_validity": True,
+            "corrected_department": "Other Civil Works",
+            "technical_summary_english": "Visual inspection identifies hostel room concrete wall defaced with black paint graffiti ('AK KI') and peeling adhesive tape marks in Umiam Hostel, Room 102. Surface requires scraping of tape residue, skim-coating of wall putty over peeled plaster blemishes, sanding, and two coats of interior white acrylic emulsion paint. Student misclassified under Carpentry.",
+            "technician_instructions_assamese": "উমিয়াম হোষ্টেলৰ ১০২ নম্বৰ ৰুমত: বেৰৰ ক'লা গ্ৰাফিটি ('AK KI') আৰু টেপৰ আঠা স্ক্ৰেপাৰেৰে চাঁচি পেলাওক। ফাট আৰু খহি পৰা ঠাইত পুট্টি লগাই চেন্দপেপাৰেৰে সমান কৰক আৰু তাৰ পাছত বগা ৰং (White Emulsion Paint) মাৰি বেৰখন নতুনকৈ ৰং কৰক।",
+            "predicted_tools_parts": [
+                "4-inch Steel Paint Scraper & Putty Knife",
+                "Waterproof Sandpaper Assortment (80-grit & 120-grit)",
+                "Acrylic Wall Putty & Surface Primer (5kg)",
+                "White Interior Acrylic Emulsion Paint (4L)",
+                "9-inch Paint Roller with Extension Pole & 2-inch Edge Brush",
+                "Floor Drop Cloth & Painter's Masking Tape"
+            ],
+            "interdependency_flag": None,
+            "severity_score": 2,
+            "chronic_issue_flag": False,
+            "visual_evidence_detected": [
+                "Defaced wall surface with large black paint graffiti ('AK KI')",
+                "Multiple adhesive tape marks with peeling surface paint",
+                "Chipped wall paint and plaster surface blemishes",
+                "Surface measurement pencil marks"
+            ],
+            "confidence_score": 0.98,
+            "recommended_action": "RECLASSIFY TO CIVIL/PAINTING: Reassign from Carpentry to Other Civil Works; dispatch painter with scraper, wall putty, roller, and white emulsion paint."
+        }
+    },
+    {
         "id": "TICKET-LOHIT-A233",
         "title": "Unhinged Wall Lamp (Vague 'broken thing.')",
         "tag": "Image-First · Misclassified to Plumbing",
