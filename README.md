@@ -1,64 +1,79 @@
-# 🛠️ AI-Augmented Triage Layer for Campus Infrastructure (IPM)
-### **Granica × IIT Guwahati 48-Hour Hackathon · Physical AI Track**
+# AI-Augmented Triage Layer for Campus Infrastructure (IPM)
+### **Granica x IIT Guwahati 48-Hour Hackathon · Physical AI Track**
 
 > **Transforming Messy Student Complaints into Single-Visit Physical Repairs**  
 > *Target User*: Campus Infrastructure Planning and Management (IPM) Dispatchers & Frontline Maintenance Technicians.
 
 ---
 
-## 🎯 The Real-World Problem & Objective
+## The Real-World Problem & Objective
 Campus maintenance currently suffers from a major operational inefficiency: **resolving a single infrastructure complaint frequently requires 2 to 3 physical visits**.
 1. **Misclassification**: Students often log complaints under the wrong department (e.g., logging a broken LAN internet port under `Electricity`, or masonry wall damage under `Carpentry`).
 2. **Missing Upfront Context**: Complaints arrive without specific hardware diagnosis. Technicians arrive empty-handed, inspect the problem, return to the campus workshop for parts, and visit a second time.
-3. **Trade Interdependencies**: Multi-trade jobs (e.g., masonry plaster patching required before mounting a study bookshelf) are assigned blindly to a single trade, causing cross-contractor deadlock.
+3. **Trade Interdependencies**: Multi-trade jobs (e.g., civil masonry hole filling required before electrical mounting) are assigned blindly to a single trade, causing cross-contractor delays and repeated visits.
 4. **Language Gap**: Frontline campus technicians in Assam predominantly speak Assamese, while student tickets are submitted in conversational English or Hinglish.
 
-### **The Intervention**
+### The Intervention
 An **AI-Augmented Triage Layer** that intercepts raw student complaints, performs multimodal analysis (text + photographic evidence), and outputs a structured dispatch work order:
-- **IPM Validity Check**: Filters out IT/Network issues to route directly to Computer Center (CC).
+- **IPM Validity Check**: Filters out IT/Network complaints to route directly to Computer & Communication Centre (CCC) and furniture requests to Hostel Office.
 - **Department Reclassification**: Automatically corrects misclassifications into 5 IPM sections: *[Electricity, Plumbing, Carpentry, Sanitary, Other Civil Works]*.
-- **Pre-Packed Tool & Hardware Prediction**: Predicts specific replacement parts (e.g., 2.5uF fan capacitor, PVC coupler, window latch handle) for single-visit resolution.
+- **Pre-Packed Tool & Hardware Prediction**: Predicts specific tools and replacement parts grouped by phase for single-visit resolution.
 - **Assamese Frontline Directive (অসমীয়া)**: Direct native-language instructions with interactive voice synthesis.
-- **Severity Scoring (1–5)**: Flags active emergencies (e.g., high-pressure water pipe flooding).
-- **Chronic Failure Detection**: Identifies repeated breakdown logs (e.g., "4th time") to mandate full asset replacement.
-- **Trade Interdependency Sequencing**: Structures sequential workflows (e.g., Civil masonry curing before Carpentry drilling).
+- **Severity Scoring (1–5)**: Flags emergencies and safety hazards (e.g., hanging live electrical wires).
+- **Multi-Trade Sequencing**: Formulates sequential workflows (e.g., Phase 1 Civil wall filling and curing before Phase 2 Electrical remounting).
 
 ---
 
-## 🏗️ System Architecture
+## How We Used AI
+We integrated the Google Gemini Multimodal Vision API (`gemini-3.5-flash`) via the official Google GenAI SDK to simultaneously analyze unstructured conversational student text and high-resolution photographic evidence. By configuring `response_mime_type="application/json"` and passing our strict `IPMTicketAnalysis` Pydantic model directly into `response_schema`, Gemini is constrained to return deterministically structured, schema-compliant JSON work orders without format hallucinations. This enables instant extraction of physical defect signatures, severity metrics, trade interdependencies, required hardware inventory, and colloquial Assamese technician directives.
+
+---
+
+## System Architecture
 
 ```mermaid
 flowchart TD
-    subgraph Step 1: Raw Student Submission
-        A[Student Portal Input] --> B[Hostel & Room Dropdown]
-        A --> C[Raw Conversational / Hinglish Text]
-        A --> D[Photographic Physical Evidence]
+    subgraph InputLayer ["1. Student Input Layer"]
+        A["Student Portal Submission"] --> B["Hostel & Room Location"]
+        A --> C["Conversational Raw Text / Voice Simulation"]
+        A --> D["Photographic Physical Evidence (Camera Capture)"]
     end
 
-    subgraph AI Triage Layer
-        B & C & D --> E[Triage Pipeline Engine]
-        E --> F{IPM Scope Check}
-        F -- "LAN / IT Outage" --> G[Invalid: Auto-Reroute to Computer Center]
-        F -- "Valid Campus Asset" --> H[Department Reclassifier]
-        H --> I[Pydantic Structured Schema Enforcement]
-        I --> J[Hardware / Parts Predictor]
-        I --> K[Assamese Translation Engine]
-        I --> L[Interdependency Sequencer]
-        I --> M[Chronic Issue Detector]
+    subgraph MultimodalCore ["2. AI Triage Engine (Google Gemini Vision API)"]
+        B & C & D --> E["Multimodal Payload Assembler"]
+        E --> F["Google GenAI Client (gemini-3.5-flash)"]
+        F --> G["Structured Schema Enforcement (IPMTicketAnalysis)"]
+        
+        G --> H{"Scope Verification"}
+        H -- "IT / Network (e.g., LAN Outage)" --> I["Invalid: Route to Computer & Communication Centre (CCC)"]
+        H -- "Hostel Admin (e.g., Missing Furniture)" --> J["Invalid: Route to Hostel Office"]
+        H -- "Valid Physical Asset" --> K["Department Triage & Reclassification"]
+        
+        K --> L["Sequential Phase Breakdown & Trade Interdependency"]
+        K --> M["Pre-Packed Inventory & Hardware Checklist Generator"]
+        K --> N["Assamese Technician Directive Engine (অসমীয়া)"]
+        K --> O["Severity & Hazard Assessment (Levels 1-5)"]
     end
 
-    subgraph Step 2: IPM Dispatcher & Technician View
-        G --> N[Computer Center IT Helpdesk]
-        J & K & L & M --> O[AI-Augmented Dispatch Ticket]
-        O --> P[Printable Work Order Slip]
-        O --> Q[SMS / App Notification to Technician]
-        O --> R[Parquet / CSV Open Dataset]
+    subgraph OutputLayer ["3. Dispatcher & Frontline Technician Interface"]
+        I --> P["CCC Helpdesk Redirect Notice"]
+        J --> Q["Hostel Office Administrative Notice"]
+        L & M & N & O --> R["Augmented Dispatch Work Order Card"]
+        R --> S["Printable Field Work Order Slip"]
+        R --> T["Web Speech Native Audio Readout"]
+        R --> U["Columnar Parquet & CSV Dataset Export"]
     end
 ```
 
+### Architecture Components
+1. **Multimodal Ingestion**: Ingests hostel residence, room number, unverified student text, and attached JPEG/PNG images from phone camera captures.
+2. **Schema-Constrained Reasoning**: Leverages Gemini 3.5 Flash with structured Pydantic schemas (`IPMTicketAnalysis`) to guarantee parseable JSON without regex post-processing.
+3. **Multi-Trade Interdependency Engine**: Automatically decomposes complex repairs into sequential phases (e.g., Phase 1 Civil wall filling and curing followed by Phase 2 Electrical anchor drilling and wiring).
+4. **Dual Dispatch Surface**: Serves dispatchers via a responsive web dashboard, field technicians via printable slips with Assamese audio synthesis, and campus administrators via Parquet/CSV data exports.
+
 ---
 
-## 📋 Structured JSON Schema (`IPMTicketAnalysis`)
+## Structured JSON Schema (IPMTicketAnalysis)
 
 ```json
 {
@@ -90,17 +105,20 @@ flowchart TD
 
 ---
 
-## 🚀 How to Run the Application
+## How to Run the Application
 
 The project provides two interface options sharing the same underlying pipeline:
 
 ### Option 1: Full-Stack Web Application (Recommended)
-Features a minimalist black-and-white interface, interactive demo selector, tools checklist, Assamese audio voice synthesis, printable job slip, and Parquet/CSV downloads:
+Features a minimalist monochrome interface, scenario selector, interactive tools checklist, Assamese audio voice synthesis, printable job slip, and Parquet/CSV downloads:
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Start Flask Server
+# 2. Configure Environment (Optional - Gemini API Key)
+# Add your key to .env: GEMINI_API_KEY=your_key_here
+
+# 3. Start Flask Server
 python app.py
 ```
 Open **`http://127.0.0.1:5001`** in your browser.
@@ -113,36 +131,12 @@ Open the generated local URL (e.g., `http://localhost:8501`).
 
 ---
 
-## 🤖 How We Used AI
-
-We integrated the **Google Gemini Multimodal API** (`gemini-3.5-flash`) via the official Google GenAI SDK (`google.genai`) to power the triage and augmentation layer:
-- **API Key & Secure Authentication**: The backend securely loads `GEMINI_API_KEY` from the environment (`.env`) or the client settings modal to authenticate requests with `genai.Client(api_key=resolved_key)`.
-- **Multimodal Physical Inspection**: Both unstructured student complaint text and high-resolution photo evidence are fed concurrently into Gemini to visually inspect physical asset damage (e.g. wall fractures, unhinged lamp fixtures, live exposed wiring).
-- **Strict Structured Output Generation**: By passing our Pydantic schema into `response_schema=IPMTicketAnalysis` with `response_mime_type="application/json"`, Gemini is constrained to return strictly valid, deterministic JSON matching all fields (severity, tools, directives) without hallucinations.
-- **Scope Invalidation & Department Triage**: Prompt engineering instructs Gemini on IIT Guwahati IPM maintenance boundaries, automatically re-routing non-IPM complaints (e.g. LAN outages to CCC, missing furniture to Hostel Office) and correcting misclassified student categories.
-- **2-Phase Sequential Breakdown**: When physical damage spans multiple disciplines, Gemini structures sequential workflows (e.g. Phase 1 Civil gap filling and plaster patching before Phase 2 Electrical remounting).
-- **Colloquial Assamese Frontline Translation**: Gemini translates dispatcher situational summaries into direct, colloquial Assamese instructions (`technician_instructions_assamese`) paired with predicted toolkits for single-visit resolution.
-
----
-
-## ⚡ Real Campus Scenarios (IIT Guwahati)
-
-| Scenario ID | Hostel & Location | Raw Student Complaint | Input Category | AI Reclassified Dept | Key AI Augmentation |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `TICKET-WALL-01` | Umiam · Room 102 | *"paint the wall"* | Carpentry | **Other Civil Works** | Reclassified from Carpentry; identifies graffiti and chipped plaster; packs putty, paint, and brush |
-| `TICKET-WALL-02` | Umiam · Room 102 | *"plaster chipping off and graffiti on wall"* | Other Civil Works | **Other Civil Works** | Validates civil works; prescribes surface preparation, plaster repair, and sanding |
-| `TICKET-LAMP-01` | Lohit · Room A233 | *"broken thing."* | Plumbing | **Electricity** | Reclassified from Plumbing; flags shock hazard; mandates **2-Phase Repair** (Civil gap fill $\rightarrow$ Electrical remount) |
-| `TICKET-NON-IPM-LAN` | Kapili · Room 308 | *"Connecting laptop with lan shows no internet"* | Electricity | **Invalid (IT)** | Scope Invalidation: Out of IPM scope; auto-redirects to CCC complaint portal |
-| `TICKET-NON-IPM-FURN` | Disang · Room 214 | *"no table and chair in my hostel room"* | Carpentry | **Invalid (Hostel Admin)** | Scope Invalidation: Out of IPM scope; auto-redirects to Hostel Office |
-
----
-
-## 📊 Dataset & Hackathon Submission Artefacts
+## Dataset & Hackathon Submission Artefacts
 - **Parquet Dataset**: [`data/ipm_triaged_tickets.parquet`](file:///Users/devalsinghal/Downloads/Granica/data/ipm_triaged_tickets.parquet)
 - **CSV Dataset**: [`data/ipm_triaged_tickets.csv`](file:///Users/devalsinghal/Downloads/Granica/data/ipm_triaged_tickets.csv)
 - **Schema Documentation**: [`data/schema_documentation.md`](file:///Users/devalsinghal/Downloads/Granica/data/schema_documentation.md)
 
 ### Real vs. Synthetic Data Split
-- **Observed Real Data (100%)**: Complaint texts, historical hostel logs, room numbers, and photographic physical evidence collected through interviews with hostel maintenance secretaries and students across 8 IIT Guwahati hostels.
+- **Observed Real Data (100%)**: Complaint texts, historical hostel logs, room numbers, and photographic physical evidence collected through interviews with hostel maintenance secretaries and students across IIT Guwahati hostels.
 - **Inferred AI Data**: Classification corrections, severity scoring, hardware requirements, Assamese translations, and trade dependency mapping.
 - **Synthetic Data (0%)**: No synthetic text. Real infrastructure failure patterns reflect authentic student reporting styles.
