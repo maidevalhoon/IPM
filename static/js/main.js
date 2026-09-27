@@ -1,11 +1,11 @@
 /**
  * Granica × IIT Guwahati Hackathon
  * AI-Augmented Triage Layer (IPM Section)
- * Frontend Interactions & Triage Orchestrator
+ * Frontend Interactions & Multimodal Orchestrator (Minimalist Light Mode)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM Elements
+  // Form Input Elements
   const demoPills = document.querySelectorAll('.demo-pill-btn');
   const hostelSelect = document.getElementById('hostelSelect');
   const roomInput = document.getElementById('roomInput');
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropzone = document.getElementById('dropzone');
   const imageFileInput = document.getElementById('imageFileInput');
   const imageUrlInput = document.getElementById('imageUrlInput');
+  const imageBase64Input = document.getElementById('imageBase64Input');
   const imagePreviewContainer = document.getElementById('imagePreviewContainer');
   const dropzoneEmpty = document.getElementById('dropzoneEmpty');
   const imagePreview = document.getElementById('imagePreview');
@@ -41,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const sevSegments = document.querySelectorAll('.sev-seg');
 
   const chronicCard = document.getElementById('chronicCard');
-  const chronicStatus = document.getElementById('chronicStatus');
   const chronicTitle = document.getElementById('chronicTitle');
   const chronicDesc = document.getElementById('chronicDesc');
 
@@ -72,12 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const modeSmart = document.getElementById('modeSmart');
   const modeGemini = document.getElementById('modeGemini');
 
-  // Application State
+  // State
   let currentTriageData = null;
   let activeAudioUtterance = null;
   let isPlayingAudio = false;
 
-  // Load Saved Settings from LocalStorage
+  // LocalStorage Settings
   const savedApiKey = localStorage.getItem('ipm_gemini_api_key') || '';
   const savedMode = localStorage.getItem('ipm_engine_mode') || 'smart';
   geminiApiKeyInput.value = savedApiKey;
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       toast.style.opacity = '0';
       toast.style.transform = 'translateY(10px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 3200);
+      setTimeout(() => toast.remove(), 250);
+    }, 2800);
   }
 
   // Render Triage Output into Right Pane
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       validityBanner.classList.add('banner-invalid');
       validityIcon.textContent = '❌';
       validityTitle.textContent = 'INVALID FOR IPM · RE-ROUTED TO COMPUTER CENTER (CC)';
-      validityDesc.textContent = 'Issue pertains to campus LAN / IT connectivity. IPM physical civil/electrical triage rejected; auto-transferred to Computer Center network desk.';
+      validityDesc.textContent = 'Issue pertains to campus LAN / IT connectivity. IPM civil/electrical triage rejected; auto-transferred to Computer Center network desk.';
       validityBadge.textContent = 'Out of Scope';
     } else {
       validityBanner.classList.remove('banner-invalid');
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
       1: 'Level 1 · Minor Cosmetic Issue',
       2: 'Level 2 · Routine Minor Repair',
       3: 'Level 3 · Standard Maintenance Needed',
-      4: 'Level 4 · Severe Operational Hazard',
+      4: 'Level 4 · Suspended on Live Wires / Electrical Hazard',
       5: 'Level 5 · Active Emergency / Water Leak Flooding'
     };
     sevDescription.textContent = sevLabels[sev];
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.chronic_issue_flag) {
       chronicCard.classList.add('chronic-alert');
       chronicTitle.textContent = '⚠️ CHRONIC FAILURE DETECTED';
-      chronicDesc.textContent = 'Text specifies repeated unresolved breakdowns (e.g. "4th time"). Mandate: Full asset replacement unit (Disallow temporary repair).';
+      chronicDesc.textContent = 'Text specifies repeated breakdown history (e.g. "3rd time"). Protocol: Mandatory structural/asset replacement.';
     } else {
       chronicCard.classList.remove('chronic-alert');
       chronicTitle.textContent = 'Single Occurrence';
@@ -178,12 +178,11 @@ document.addEventListener('DOMContentLoaded', () => {
       interdependencyCard.style.display = 'flex';
       interdependencyText.textContent = data.interdependency_flag;
 
-      // Render step pills if masonry / split ticket
       if (data.interdependency_flag.toLowerCase().includes('before')) {
         sequenceSteps.innerHTML = `
-          <div class="seq-node">Phase 1: Civil Works (Masonry Patching)</div>
-          <div class="seq-arrow">➔ 24h Cure ➔</div>
-          <div class="seq-node">Phase 2: Carpentry Mounting</div>
+          <div class="seq-node">Phase 1: Civil Masonry Patch</div>
+          <div class="seq-arrow">➔ Curing ➔</div>
+          <div class="seq-node">Phase 2: Electrical Remounting</div>
         `;
       } else if (data.interdependency_flag.toLowerCase().includes('split')) {
         sequenceSteps.innerHTML = `
@@ -215,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 7. Technical Summary (English)
+    // 7. Situational Technical Summary (English)
     technicalSummaryText.textContent = data.technical_summary_english || 'No technical summary generated.';
 
     // 8. Assamese Directive (অসমীয়া)
@@ -232,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnSpinner.style.display = 'inline-block';
-    triageBtnText.textContent = 'Analyzing Physical Evidence...';
+    triageBtnText.textContent = 'Multimodal Vision Analyzing...';
     runTriageBtn.disabled = true;
 
     try {
@@ -244,7 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hostel: hostelSelect.value,
         room: roomInput.value.trim(),
         original_category: originalCategorySelect.value,
-        image_url: imageUrlInput.value,
+        image_url: imageUrlInput.value || null,
+        image_base64: imageBase64Input.value || null,
         api_key: apiKey || null,
         force_offline: !isGeminiMode
       };
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const resJson = await response.json();
       if (resJson.status === 'success') {
         renderTriageOutput(resJson.data, originalCategorySelect.value);
-        showToast('AI Triage completed successfully!', 'success');
+        showToast('AI Multimodal Triage completed!', 'success');
       } else {
         showToast(resJson.message || 'Triage processing error.', 'warn');
       }
@@ -292,6 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
           rawTextInput.value = t.raw_text;
           updateCharCount();
 
+          imageBase64Input.value = '';
+
           if (t.image_url) {
             imagePreview.src = t.image_url;
             imageUrlInput.value = t.image_url;
@@ -305,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Immediately render expected output
           renderTriageOutput(t.expected_output, t.original_category);
-          showToast(`Loaded demo: ${t.id} (${t.title})`, 'info');
+          showToast(`Loaded: ${t.id} (${t.title})`, 'info');
         }
       } catch (e) {
         console.error('Error fetching demo:', e);
@@ -313,7 +315,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Image Dropzone Handling
+  // Image File Upload and Base64 Conversion
+  function processSelectedFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Data = e.target.result;
+      imagePreview.src = base64Data;
+      imageBase64Input.value = base64Data;
+      imageUrlInput.value = ''; // Local upload overrides static URL
+      imagePreviewContainer.style.display = 'block';
+      dropzoneEmpty.style.display = 'none';
+      showToast('Photo evidence attached & ready for vision analysis.', 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+
   dropzone.addEventListener('click', (e) => {
     if (e.target.id === 'removeImageBtn' || e.target.id === 'expandImageBtn') return;
     if (imagePreviewContainer.style.display === 'none') {
@@ -323,16 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   imageFileInput.addEventListener('change', () => {
     if (imageFileInput.files && imageFileInput.files[0]) {
-      const file = imageFileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.src = e.target.result;
-        imageUrlInput.value = ''; // Local upload
-        imagePreviewContainer.style.display = 'block';
-        dropzoneEmpty.style.display = 'none';
-        showToast('Photo evidence attached.', 'success');
-      };
-      reader.readAsDataURL(file);
+      processSelectedFile(imageFileInput.files[0]);
     }
   });
 
@@ -340,36 +348,40 @@ document.addEventListener('DOMContentLoaded', () => {
     e.stopPropagation();
     imagePreview.src = '';
     imageUrlInput.value = '';
+    imageBase64Input.value = '';
     imageFileInput.value = '';
     imagePreviewContainer.style.display = 'none';
     dropzoneEmpty.style.display = 'flex';
+    showToast('Photo evidence removed.', 'info');
   });
 
   // Drag and Drop
   dropzone.addEventListener('dragover', (e) => {
     e.preventDefault();
-    dropzone.style.borderColor = 'var(--accent-cyan)';
+    dropzone.style.borderColor = 'var(--accent-blue)';
+    dropzone.style.background = '#eff6ff';
   });
   dropzone.addEventListener('dragleave', () => {
     dropzone.style.borderColor = '';
+    dropzone.style.background = '';
   });
   dropzone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropzone.style.borderColor = '';
+    dropzone.style.background = '';
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       imageFileInput.files = e.dataTransfer.files;
-      const event = new Event('change');
-      imageFileInput.dispatchEvent(event);
+      processSelectedFile(e.dataTransfer.files[0]);
     }
   });
 
   // Voice Note Simulation
   voiceSimBtn.addEventListener('click', () => {
     const samples = [
-      "Room 274 ke paas ke water cooler ki pipe me leakage ho gya he , baar baar kuch beep beep noise ata rehta hai usse...",
-      "Connecting laptop with lan shows no internet. Ethernet port yellow light blinking continuously, tried 3 cables.",
-      "My fan is creating very noise like it will come down and this is 4 th time when I am posting complaint!",
-      "Windows are not opening properly, jammed tight in monsoon and also there is no handle in the windows"
+      "broken thing.",
+      "Bhai study table ke upar wall lamp pura nikal gaya hai aur taar pe latak raha hai! Sparks aa sakte hain ya current lag sakta hai",
+      "Wall bracket and lamp came out while adjusting light angle, screws fell down and hole in plaster got bigger.",
+      "Room 274 ke paas ke water cooler ki pipe me leakage ho gya he , baar baar kuch beep beep noise ata rehta hai usse..."
     ];
     const picked = samples[Math.floor(Math.random() * samples.length)];
     rawTextInput.value = '';
@@ -382,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(interval);
         showToast('Voice transcription simulated.', 'success');
       }
-    }, 25);
+    }, 20);
   });
 
   // Clear Form
@@ -392,13 +404,14 @@ document.addEventListener('DOMContentLoaded', () => {
     roomInput.value = '';
     imagePreview.src = '';
     imageUrlInput.value = '';
+    imageBase64Input.value = '';
     imageFileInput.value = '';
     imagePreviewContainer.style.display = 'none';
     dropzoneEmpty.style.display = 'flex';
     showToast('Form cleared.', 'info');
   });
 
-  // Assamese Audio Readout (Web Speech API)
+  // Assamese Audio Readout
   playAudioBtn.addEventListener('click', () => {
     if (!('speechSynthesis' in window)) {
       showToast('Browser does not support Speech Synthesis audio.', 'warn');
@@ -417,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!textToRead) return;
 
     activeAudioUtterance = new SpeechSynthesisUtterance(textToRead);
-    // Bengali/Assamese locale code
     activeAudioUtterance.lang = 'bn-IN';
     activeAudioUtterance.rate = 0.95;
 
@@ -449,11 +461,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy JSON Schema
+  // Copy JSON Output
   copyJsonBtn.addEventListener('click', () => {
     if (!currentTriageData) return;
     navigator.clipboard.writeText(JSON.stringify(currentTriageData, null, 2)).then(() => {
-      showToast('JSON schema copied to clipboard.', 'success');
+      showToast('Structured JSON copied to clipboard.', 'success');
     });
   });
 
@@ -505,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('ipm_gemini_api_key', geminiApiKeyInput.value.trim());
     localStorage.setItem('ipm_engine_mode', modeGemini.checked ? 'gemini' : 'smart');
     settingsModal.style.display = 'none';
-    showToast('Engine settings saved.', 'success');
+    showToast('Configuration saved.', 'success');
   });
 
   // Close modals on backdrop click
@@ -514,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
 
-  // Initialize with First Demo Ticket
+  // Initialize with First Demo Ticket (Lohit A233: 'broken thing.')
   const firstPill = document.querySelector('.demo-pill-btn.active');
   if (firstPill) {
     firstPill.click();

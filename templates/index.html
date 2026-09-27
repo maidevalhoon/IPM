@@ -7,20 +7,20 @@
   <meta name="description" content="AI-Augmented Triage Layer for IIT Guwahati Infrastructure Planning and Management (IPM). Transforming raw student complaints into single-visit technician dispatches.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body class="dark-theme">
+<body class="light-theme">
 
   <!-- Top Navigation & Institutional Branding -->
   <header class="app-header">
     <div class="header-left">
       <div class="brand-badge">
-        <div class="pulse-indicator"></div>
-        <span class="hackathon-tag">Granica × IIT Guwahati · 48H Hackathon</span>
+        <span class="iitg-logo-pill">IITG</span>
+        <span class="hackathon-tag">Granica × IIT Guwahati Hackathon · Physical AI Track</span>
       </div>
       <h1 class="app-title">
-        <span class="gradient-text">Physical AI</span> Triage Layer
+        AI-Augmented Triage Layer
         <span class="dept-badge">IPM Section</span>
       </h1>
     </div>
@@ -36,16 +36,19 @@
         <span class="metric-lbl">Misclassifications Caught</span>
       </div>
       <div class="metric-pill">
-        <span class="metric-val text-cyan">অসমীয়া</span>
+        <span class="metric-val text-blue">অসমীয়া</span>
         <span class="metric-lbl">Native Assamese Handover</span>
       </div>
-      <button id="openSettingsBtn" class="btn btn-ghost" title="Settings & Gemini API Key">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <button id="openSettingsBtn" class="btn btn-sm btn-outline" title="Settings & Gemini API Key">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         <span>Engine</span>
       </button>
-      <a href="/api/export/parquet" class="btn btn-outline" download="ipm_triaged_tickets.parquet" title="Download open dataset in Parquet format">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <a href="/api/export/parquet" class="btn btn-sm btn-outline" download="ipm_triaged_tickets.parquet" title="Download open dataset in Parquet format">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span>Parquet</span>
+      </a>
+      <a href="/api/export/csv" class="btn btn-sm btn-outline" download="ipm_triaged_tickets.csv" title="Download open dataset in CSV format">
+        <span>CSV</span>
       </a>
     </div>
   </header>
@@ -53,8 +56,8 @@
   <!-- Interactive Demo Case Selector Bar -->
   <section class="demo-selector-bar">
     <div class="selector-title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>Live IITG Historical Demos:</span>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>IIT Guwahati Historical Tickets:</span>
     </div>
     <div class="demo-pills-carousel" id="demoPills">
       {% for demo in demos %}
@@ -80,7 +83,7 @@
             <p class="pane-subtitle">Student portal submission (Messy, conversational, unverified)</p>
           </div>
         </div>
-        <button id="clearFormBtn" class="btn btn-xs btn-ghost" title="Reset to blank ticket">Clear Form</button>
+        <button id="clearFormBtn" class="btn btn-xs btn-subtle" title="Reset form">Clear Form</button>
       </div>
 
       <form id="studentTicketForm" class="ticket-form" onsubmit="return false;">
@@ -90,6 +93,7 @@
             <label for="hostelSelect">Hostel Residence <span class="required">*</span></label>
             <div class="select-wrapper">
               <select id="hostelSelect" name="hostel" required>
+                <option value="Lohit Hostel" selected>Lohit Hostel</option>
                 <option value="Umiam Hostel">Umiam Hostel</option>
                 <option value="Brahmaputra Hostel">Brahmaputra Hostel</option>
                 <option value="Kapili Hostel">Kapili Hostel</option>
@@ -98,7 +102,6 @@
                 <option value="Dihing Hostel">Dihing Hostel</option>
                 <option value="Manas Hostel">Manas Hostel</option>
                 <option value="Siang Hostel">Siang Hostel</option>
-                <option value="Lohit Hostel">Lohit Hostel</option>
                 <option value="Disang Hostel">Disang Hostel</option>
                 <option value="Subhansiri Hostel">Subhansiri Hostel</option>
                 <option value="Dhansiri Hostel">Dhansiri Hostel</option>
@@ -107,7 +110,7 @@
           </div>
           <div class="form-group flex-1">
             <label for="roomInput">Room / Location <span class="required">*</span></label>
-            <input type="text" id="roomInput" name="room" value="2nd Floor Corridor (Near Rm 274)" placeholder="e.g. Room 204, Wing B" required>
+            <input type="text" id="roomInput" name="room" value="A233" placeholder="e.g. A233, Room 102" required>
           </div>
         </div>
 
@@ -115,12 +118,12 @@
         <div class="form-group">
           <label for="originalCategorySelect">
             Student-Selected Category
-            <span class="label-hint">(Prone to misclassification)</span>
+            <span class="label-hint">(Prone to student misclassification)</span>
           </label>
           <div class="select-wrapper">
             <select id="originalCategorySelect" name="original_category">
+              <option value="Plumbing" selected>Plumbing</option>
               <option value="Electricity">Electricity</option>
-              <option value="Plumbing">Plumbing</option>
               <option value="Carpentry">Carpentry</option>
               <option value="Sanitary">Sanitary</option>
               <option value="Other Civil Works">Other Civil Works</option>
@@ -134,44 +137,48 @@
             <label for="rawTextInput">Complaint Details <span class="required">*</span></label>
             <div class="textarea-actions">
               <button type="button" id="voiceSimBtn" class="btn-text-action" title="Simulate voice transcription">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                 <span>Voice Note</span>
               </button>
             </div>
           </div>
-          <textarea id="rawTextInput" name="raw_text" rows="4" placeholder="Type complaint here (e.g. Hinglish, informal, repeated complaints, LAN port issues)..." required>Room 274 ke paas ke water cooler ki pipe me leakage ho gya he , baar baar kuch beep beep noise ata rehta hai usse... Floor pe paani bhar raha hai jaldi koi bhej do!</textarea>
-          <div class="char-counter"><span id="charCount">0</span> chars</div>
+          <textarea id="rawTextInput" name="raw_text" rows="3" placeholder="Type complaint here (conversational, vague, or Hinglish)..." required>broken thing.</textarea>
+          <div class="char-counter"><span id="charCount">13</span> chars</div>
         </div>
 
         <!-- Image Upload & Photographic Evidence -->
         <div class="form-group">
-          <label>Photographic Physical Evidence</label>
+          <div class="label-with-actions">
+            <label>Photographic Physical Evidence</label>
+            <span class="evidence-badge" id="evidenceBadge">Multimodal Active</span>
+          </div>
           <div class="upload-dropzone" id="dropzone">
             <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden">
-            <input type="hidden" id="imageUrlInput" value="/static/images/cooler_leak.jpg">
+            <input type="hidden" id="imageUrlInput" value="/static/images/decon_study_lamp.jpeg">
+            <input type="hidden" id="imageBase64Input" value="">
 
             <!-- Preview Card -->
             <div class="image-preview-container" id="imagePreviewContainer">
-              <img id="imagePreview" src="/static/images/cooler_leak.jpg" alt="Evidence Preview">
+              <img id="imagePreview" src="/static/images/decon_study_lamp.jpeg" alt="Evidence Preview">
               <div class="preview-overlay">
                 <button type="button" id="removeImageBtn" class="btn btn-danger btn-circle" title="Remove photo">✕</button>
-                <button type="button" id="expandImageBtn" class="btn btn-ghost btn-circle" title="View full photo">🔍</button>
+                <button type="button" id="expandImageBtn" class="btn btn-subtle btn-circle" title="View full photo">🔍</button>
               </div>
             </div>
 
             <!-- Empty Dropzone State -->
             <div class="dropzone-empty" id="dropzoneEmpty" style="display: none;">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               <p>Drag & drop damage photo, or <span class="browse-link">browse</span></p>
-              <span class="upload-hint">Simulates phone camera upload from hostel room</span>
+              <span class="upload-hint">Simulates phone camera capture from hostel room</span>
             </div>
           </div>
         </div>
 
         <!-- Submit & Trigger Triage Button -->
-        <button type="button" id="runTriageBtn" class="btn btn-primary btn-glow btn-lg w-full">
+        <button type="button" id="runTriageBtn" class="btn btn-primary btn-lg w-full">
           <span class="btn-spinner" id="btnSpinner" style="display: none;"></span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
           <span id="triageBtnText">Run AI Triage & Augmentation</span>
         </button>
       </form>
@@ -189,10 +196,10 @@
         </div>
         <div class="pane-header-actions">
           <button id="printSlipBtn" class="btn btn-xs btn-outline" title="Print Technician Job Slip">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             <span>Print Slip</span>
           </button>
-          <button id="copyJsonBtn" class="btn btn-xs btn-ghost" title="Copy raw JSON schema">JSON</button>
+          <button id="copyJsonBtn" class="btn btn-xs btn-subtle" title="Copy JSON output">JSON</button>
         </div>
       </div>
 
@@ -220,10 +227,10 @@
             <div class="dept-arrow">➔</div>
             <div class="dept-col">
               <span class="sub-lbl">AI Corrected / Verified</span>
-              <div class="dept-badge-display dept-corrected" id="displayCorrectedDept">Plumbing</div>
+              <div class="dept-badge-display dept-corrected" id="displayCorrectedDept">Electricity</div>
             </div>
             <div class="dept-status-flag" id="deptStatusFlag">
-              <span class="correction-tag verified">Verified Match</span>
+              <span class="correction-tag corrected">⚠️ Reclassified by AI</span>
             </div>
           </div>
         </div>
@@ -242,8 +249,8 @@
                 <div class="sev-seg" data-level="5"></div>
               </div>
               <div class="severity-info">
-                <span class="sev-number" id="sevNumber">5</span>
-                <span class="sev-description" id="sevDescription">Level 5 · Active Water Leak / Hazard</span>
+                <span class="sev-number" id="sevNumber">4</span>
+                <span class="sev-description" id="sevDescription">Level 4 · Suspended on Live Wires / Electrical Hazard</span>
               </div>
             </div>
           </div>
@@ -254,8 +261,8 @@
             <div class="chronic-status" id="chronicStatus">
               <span class="chronic-icon">⚡</span>
               <div>
-                <strong id="chronicTitle">Routine Maintenance</strong>
-                <p id="chronicDesc">Standard single-occurrence maintenance request.</p>
+                <strong id="chronicTitle">Single Occurrence</strong>
+                <p id="chronicDesc">Standard single-visit maintenance workflow approved.</p>
               </div>
             </div>
           </div>
@@ -269,7 +276,7 @@
           </div>
           <p id="interdependencyText" class="inter-text"></p>
           <div class="sequence-steps" id="sequenceSteps">
-            <!-- Step Flow Generated dynamically -->
+            <!-- Dynamically generated -->
           </div>
         </div>
 
@@ -284,11 +291,11 @@
           </ul>
         </div>
 
-        <!-- 6. Standardized Technical Summary (English) -->
+        <!-- 6. Situational Technical Summary (English) -->
         <div class="card summary-card">
-          <div class="card-label">Dispatcher Technical Summary (English)</div>
+          <div class="card-label">Dispatcher Situational Summary (English)</div>
           <p class="technical-text" id="technicalSummaryText">
-            High-pressure potable water inlet PVC pipe ruptured beneath corridor water cooler unit. Active water leakage causing floor flooding with audible electronic filter/float sensor alarm triggered.
+            Visual analysis confirms wall-mounted adjustable DECON study lamp fixture has mechanically detached from the circular electrical conduit junction box in Lohit Hostel, Room A233. The lamp is suspended in mid-air supported solely by exposed electrical conductors (phase, neutral, earth). Screws have stripped out of the wall anchors, presenting an active electrical shock hazard, tensile stress on internal wiring, and physical fall hazard.
           </p>
         </div>
 
@@ -301,26 +308,23 @@
             </div>
             <div class="audio-controls">
               <button id="playAudioBtn" class="btn btn-audio" title="Listen to Assamese instructions">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                 <span id="audioBtnText">Play Audio</span>
               </button>
-              <button id="copyAssameseBtn" class="btn btn-xs btn-ghost" title="Copy Assamese text">📋</button>
+              <button id="copyAssameseBtn" class="btn btn-xs btn-subtle" title="Copy Assamese text">📋 Copy</button>
             </div>
           </div>
           <div class="assamese-body" id="assameseText">
-            ৰুম ২৭৪ ৰ ওচৰৰ ৱাটাৰ কুলাৰৰ তলৰ ফাটি যোৱা PVC পানীৰ পাইপ তৎকালীনভাৱে মেৰামতি কৰক আৰু বিপিং চেন্সৰ পৰীক্ষা কৰক। মজিয়াত পানী জমা হৈছে।
+            লোহিত হোষ্টেলৰ A233 নম্বৰ ৰুমত: বেৰৰ পৰা ওলমি থকা DECON ষ্টাডি লেম্পটো খুলি নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই মজবুতকৈ ফিক্স কৰক। ওলমি থকা ওৱাৰিং পৰীক্ষা কৰি টেপিং কৰক যাতে শ্বৰ্ট চাৰ্কিট নহয়।
           </div>
         </div>
 
         <!-- 8. Dispatch & Execution Action Bar -->
         <div class="dispatch-action-bar">
           <button id="dispatchNowBtn" class="btn btn-success btn-lg flex-1">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Dispatch Work Order to Technician</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span>Dispatch Work Order to Electrician</span>
           </button>
-          <a href="/api/export/csv" class="btn btn-outline" download="ipm_triaged_tickets.csv" title="Export CSV for dataset records">
-            <span>CSV Export</span>
-          </a>
         </div>
 
       </div>
@@ -337,22 +341,22 @@
           <div>
             <h3>INDIAN INSTITUTE OF TECHNOLOGY GUWAHATI</h3>
             <h4>Infrastructure Planning & Management (IPM) Section</h4>
-            <div class="slip-order-no">WORK ORDER #<span id="slipOrderNo">IPM-2026-086103</span></div>
+            <div class="slip-order-no">WORK ORDER #<span id="slipOrderNo">IPM-2026-LOHIT-A233</span></div>
           </div>
         </div>
         <div class="slip-actions-top">
           <button id="triggerPrintBtn" class="btn btn-primary btn-sm">🖨️ Print Now</button>
-          <button id="closePrintModalBtn" class="btn btn-ghost btn-sm">✕ Close</button>
+          <button id="closePrintModalBtn" class="btn btn-subtle btn-sm">✕ Close</button>
         </div>
       </div>
 
       <hr class="slip-divider">
 
       <div class="slip-grid">
-        <div><strong>Hostel / Block:</strong> <span id="slipHostel">Umiam Hostel</span></div>
-        <div><strong>Location:</strong> <span id="slipRoom">2nd Floor Corridor (Near Rm 274)</span></div>
-        <div><strong>Assigned Trade:</strong> <span id="slipDept">Plumbing</span></div>
-        <div><strong>Severity Score:</strong> <span id="slipSeverity">Level 5 (Emergency)</span></div>
+        <div><strong>Hostel / Residence:</strong> <span id="slipHostel">Lohit Hostel</span></div>
+        <div><strong>Location / Room:</strong> <span id="slipRoom">A233</span></div>
+        <div><strong>Assigned Trade:</strong> <span id="slipDept">Electricity</span></div>
+        <div><strong>Severity Score:</strong> <span id="slipSeverity">Level 4 (Electrical Hazard)</span></div>
       </div>
 
       <div class="slip-section">
@@ -366,7 +370,7 @@
       </div>
 
       <div class="slip-section">
-        <h5>REQUIRED HARDWARE & TOOLKIT (PACKED BEFORE DISPATCH):</h5>
+        <h5>PRE-PACKED HARDWARE & TOOLKIT (PACKED BEFORE DISPATCH):</h5>
         <ul id="slipTools" class="slip-tools-list"></ul>
       </div>
 
@@ -391,8 +395,8 @@
   <div class="modal-backdrop" id="settingsModal" style="display: none;">
     <div class="settings-card">
       <div class="settings-header">
-        <h3>AI Engine & Hackathon Configuration</h3>
-        <button id="closeSettingsModalBtn" class="btn btn-ghost btn-circle">✕</button>
+        <h3>AI Engine & Multimodal Settings</h3>
+        <button id="closeSettingsModalBtn" class="btn btn-subtle btn-circle">✕</button>
       </div>
       <div class="settings-body">
         <div class="form-group">
@@ -400,7 +404,7 @@
           <div class="toggle-group">
             <label class="toggle-label">
               <input type="radio" name="engineMode" value="smart" id="modeSmart" checked>
-              <span>⚡ Smart Heuristic (Zero-Latency / Offline Hackathon Mode)</span>
+              <span>⚡ Smart Heuristic + Multimodal Vision (Zero-Latency / Offline)</span>
             </label>
             <label class="toggle-label">
               <input type="radio" name="engineMode" value="gemini" id="modeGemini">
@@ -412,12 +416,12 @@
         <div class="form-group" id="apiKeyGroup">
           <label for="geminiApiKeyInput">Gemini API Key</label>
           <input type="password" id="geminiApiKeyInput" placeholder="Enter AIzaSy... key (stored locally)">
-          <span class="label-hint">Saved securely in browser local storage.</span>
+          <span class="label-hint">Stored securely in your local browser cache.</span>
         </div>
 
         <div class="settings-info-box">
-          <strong>Hackathon Evaluation Notice:</strong>
-          <p>The Smart Heuristic Engine reproduces exact ground truth outputs from real IIT Guwahati historical logs. Supplying a Gemini API key enables real-time LLM inference for novel complaints.</p>
+          <strong>Hackathon Live Evaluation:</strong>
+          <p>The Smart Multimodal Engine performs visual feature extraction and situation analysis on hostel images and text without requiring active API credits.</p>
         </div>
       </div>
       <div class="settings-footer">

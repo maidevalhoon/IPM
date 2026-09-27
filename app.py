@@ -1,12 +1,14 @@
 """
 Flask Backend Server for Granica × IIT Guwahati Hackathon
 AI-Augmented Triage Layer (IPM).
+Supports Multimodal Image Analysis, Minimalist Light Theme, and Parquet/CSV exports.
 """
 
 import os
 import sys
 import json
 import base64
+import urllib.parse
 from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_file
 
@@ -20,7 +22,7 @@ from pipeline.demo_data import get_all_demos, get_demo_by_id
 from pipeline.triage_engine import analyze_ticket
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
-app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max
+app.config["MAX_CONTENT_LENGTH"] = 32 * 1024 * 1024  # 32 MB max
 
 @app.route("/")
 def index():
@@ -39,30 +41,41 @@ def api_get_demo_ticket(ticket_id):
 @app.route("/api/triage", methods=["POST"])
 def api_triage():
     try:
-        # Support both JSON payload and multipart form data
         image_path = None
         
         if request.is_json:
             data = request.get_json() or {}
             raw_text = data.get("raw_text", "").strip()
-            hostel = data.get("hostel", "Brahmaputra Hostel")
-            room = data.get("room", "Room 101")
+            hostel = data.get("hostel", "Lohit Hostel")
+            room = data.get("room", "A233")
             original_category = data.get("original_category", "Electricity")
             api_key = data.get("api_key", None)
             force_offline = bool(data.get("force_offline", False))
             image_url = data.get("image_url", None)
+            image_base64 = data.get("image_base64", None)
             
-            # If image_url starts with /static/, resolve to local path
-            if image_url and image_url.startswith("/static/"):
-                rel_path = image_url[len("/static/"):]
+            # If client uploaded base64 data
+            if image_base64 and len(image_base64) > 50:
+                header, encoded = image_base64.split(",", 1) if "," in image_base64 else ("", image_base64)
+                img_data = base64.b64decode(encoded)
+                upload_dir = BASE_DIR / "static" / "uploads"
+                upload_dir.mkdir(parents=True, exist_ok=True)
+                dest = upload_dir / "client_uploaded_evidence.jpg"
+                with open(dest, "wb") as f:
+                    f.write(img_data)
+                image_path = str(dest)
+
+            # If image_url is a static path
+            elif image_url and image_url.startswith("/static/"):
+                rel_path = urllib.parse.unquote(image_url[len("/static/"):])
                 local_img = BASE_DIR / "static" / rel_path
                 if local_img.exists():
                     image_path = str(local_img)
 
         else:
             raw_text = request.form.get("raw_text", "").strip()
-            hostel = request.form.get("hostel", "Brahmaputra Hostel")
-            room = request.form.get("room", "Room 101")
+            hostel = request.form.get("hostel", "Lohit Hostel")
+            room = request.form.get("room", "A233")
             original_category = request.form.get("original_category", "Electricity")
             api_key = request.form.get("api_key", None)
             force_offline = request.form.get("force_offline", "false").lower() == "true"
@@ -80,7 +93,7 @@ def api_triage():
         if not raw_text:
             return jsonify({"status": "error", "message": "Raw complaint text cannot be empty."}), 400
 
-        # Run triage analysis
+        # Run multimodal triage analysis
         result: IPMTicketAnalysis = analyze_ticket(
             raw_text=raw_text,
             hostel=hostel,
@@ -129,6 +142,6 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
     print(f"\n=======================================================")
     print(f"🚀 Granica × IIT Guwahati Hackathon - IPM Triage Server")
-    print(f"📡 Serving on http://127.0.0.1:{port}")
+    print(f"📡 Minimalist Light Mode Serving on http://127.0.0.1:{port}")
     print(f"=======================================================\n")
     app.run(host="0.0.0.0", port=port, debug=True)
