@@ -63,25 +63,28 @@ flowchart TD
 ```json
 {
   "ipm_validity": true,
-  "corrected_department": "Plumbing",
-  "technical_summary_english": "High-pressure potable water inlet PVC pipe ruptured beneath corridor water cooler unit. Active water leakage causing floor flooding with audible electronic filter/float sensor alarm triggered.",
-  "technician_instructions_assamese": "ৰুম ২৭৪ ৰ ওচৰৰ ৱাটাৰ কুলাৰৰ তলৰ ফাটি যোৱা PVC পানীৰ পাইপ তৎকালীনভাৱে মেৰামতি কৰক আৰু বিপিং চেন্সৰ পৰীক্ষা কৰক। মজিয়াত পানী জমা হৈছে।",
+  "corrected_department": "Electricity",
+  "technical_summary_english": "Visual analysis confirms wall-mounted study lamp detached from electrical junction box in Lohit Hostel, Room A233, and suspended precariously on live electrical wiring. The wall mounting cavity is stripped and fractured. Requires 2-Phase Sequential Repair: Phase 1 Civil Works to fill and patch the crumbling wall gap/hole with polymer putty/mortar and allow to set, followed by Phase 2 Electrical Works to drill fresh anchor holes, secure the baseplate with wall plugs and screws, and verify circuit integrity.",
+  "technician_instructions_assamese": "লোহিত হোষ্টেলৰ A233 নম্বৰ কোঠাত ২টা পৰ্যায়ৰ কাম (2-Phase Work): প্ৰথম পৰ্যায়ত চিভিল মিস্ত্ৰীয়ে দেৱালৰ খহি পৰা ফাঁক আৰু ফুটাটো ৱাল পুটি/চিমেণ্টেৰে ভৰাই সমান কৰক। শুকোৱাৰ পাছত দ্বিতীয় পৰ্যায়ত বিজুলী মিস্ত্ৰীয়ে নতুন ৱাল প্লাগ (গিট্টি) আৰু স্ক্ৰু লগাই লেম্পটো মজবুতকৈ স্থাপন কৰক আৰু টেষ্টাৰেৰে বিজুলী পৰীক্ষা কৰক।",
   "predicted_tools_parts": [
-    "1/2-inch Heavy Duty PVC Pipe Coupler",
-    "CPVC Solvent Cement (100ml)",
-    "Adjustable Pipe Wrench (12-inch)",
-    "Water Cooler Float Sensor Probe & Teflon Tape"
+    "Phase 1 (Civil): Quick-Setting Wall Putty & White Cement (2kg)",
+    "Phase 1 (Civil): Steel Putty Knife & Surface Scraper",
+    "Phase 2 (Electrical): 6mm Nylon Wall Anchor Plugs (Gitti)",
+    "Phase 2 (Electrical): 1.5-inch Self-Tapping Screws (M4)",
+    "Phase 2 (Electrical): Insulated Line Phase Tester & Screwdriver Set",
+    "Phase 2 (Electrical): Cordless Drill with 6mm Masonry Bit",
+    "Phase 2 (Electrical): PVC Electrical Insulation Tape"
   ],
-  "interdependency_flag": null,
-  "severity_score": 5,
+  "interdependency_flag": "2-Phase Trade Interdependency: Phase 1 Civil Works required to fill and patch the crumbling wall gap before Phase 2 Electrical remounting and wiring termination.",
+  "severity_score": 4,
   "chronic_issue_flag": false,
   "visual_evidence_detected": [
-    "Transverse fracture in blue PVC water pipe",
-    "Active pressurized water stream escaping",
-    "Substantial puddle and floor slip hazard"
+    "detached wall study lamp",
+    "hanging exposed electrical wiring",
+    "damaged crumbling plaster cavity around mounting hole"
   ],
   "confidence_score": 0.98,
-  "recommended_action": "EMERGENCY DISPATCH: Shut off main corridor valve immediately, dispatch plumber with PVC couplers."
+  "recommended_action": "2-PHASE DISPATCH: Phase 1 Civil gap filling and plaster patching first; Phase 2 Electrical remounting post-setting."
 }
 ```
 
@@ -92,7 +95,7 @@ flowchart TD
 The project provides two interface options sharing the same underlying pipeline:
 
 ### Option 1: Full-Stack Web Application (Recommended)
-Features custom dark-mode glassmorphism, live demo carousel, interactive tools checklist, Assamese audio voice synthesis, printable job slip, and Parquet/CSV downloads:
+Features a minimalist black-and-white interface, interactive demo selector, tools checklist, Assamese audio voice synthesis, printable job slip, and Parquet/CSV downloads:
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
@@ -110,17 +113,27 @@ Open the generated local URL (e.g., `http://localhost:8501`).
 
 ---
 
-## ⚡ Pre-Loaded Historical Demo Cases (IIT Guwahati)
+## 🤖 How We Used AI
 
-| Ticket ID | Hostel & Location | Raw Student Complaint | AI Corrected Dept | Key AI Intervention |
-| :--- | :--- | :--- | :--- | :--- |
-| `086103` | Umiam · Rm 274 Corridor | *"Water cooler pipe me leakage ho gya he, beep beep noise..."* | **Plumbing** | **Severity 5 Emergency**: Flooding risk; predicts PVC coupler & cement |
-| `057088` | Kapili · Room 308 | *"Connecting laptop with lan shows no internet, yellow light..."* | **Invalid (IT)** | **Scope Invalidation**: Re-routes out of IPM to Computer Center (CC) |
-| `142046` | Kameng · Room 119 | *"My fan is creating noise, 4th time posting complaint! Every time technician comes and adds oil..."* | **Electricity** | **Chronic Issue Flag**: Mandates full new 1200mm fan replacement |
-| `141190` | Siang · Room 205 | *"Holes and cracks in walls... want to fix bookshelf but concrete crumbling..."* | **Other Civil Works** | **Interdependency**: Civil masonry patching required BEFORE Carpentry |
-| `105873` | Manas · Room 412 | *"Windows are not opening properly, no handle, rain coming inside..."* | **Carpentry** | **Hardware Prediction**: Aluminum casement handle, M4.5 screws, wood plane |
-| `082936` | Dihing · Room 114 | *"Change Fan Condeser. Room fan is running very slow speed..."* | **Electricity** | **Single-Visit Fix**: Packs 2.5uF 440V capacitor before dispatch |
-| `088651` | Barak · BT-02 & BS-01 | *"Shower tap not working in BT-02. Tower bolt lock fixed in Bs-01"* | **Plumbing** | **Split Ticket**: Dual assignment for Plumbing fixture + Carpentry bolt |
+We integrated the **Google Gemini Multimodal API** (`gemini-3.5-flash`) via the official Google GenAI SDK (`google.genai`) to power the triage and augmentation layer:
+- **API Key & Secure Authentication**: The backend securely loads `GEMINI_API_KEY` from the environment (`.env`) or the client settings modal to authenticate requests with `genai.Client(api_key=resolved_key)`.
+- **Multimodal Physical Inspection**: Both unstructured student complaint text and high-resolution photo evidence are fed concurrently into Gemini to visually inspect physical asset damage (e.g. wall fractures, unhinged lamp fixtures, live exposed wiring).
+- **Strict Structured Output Generation**: By passing our Pydantic schema into `response_schema=IPMTicketAnalysis` with `response_mime_type="application/json"`, Gemini is constrained to return strictly valid, deterministic JSON matching all fields (severity, tools, directives) without hallucinations.
+- **Scope Invalidation & Department Triage**: Prompt engineering instructs Gemini on IIT Guwahati IPM maintenance boundaries, automatically re-routing non-IPM complaints (e.g. LAN outages to CCC, missing furniture to Hostel Office) and correcting misclassified student categories.
+- **2-Phase Sequential Breakdown**: When physical damage spans multiple disciplines, Gemini structures sequential workflows (e.g. Phase 1 Civil gap filling and plaster patching before Phase 2 Electrical remounting).
+- **Colloquial Assamese Frontline Translation**: Gemini translates dispatcher situational summaries into direct, colloquial Assamese instructions (`technician_instructions_assamese`) paired with predicted toolkits for single-visit resolution.
+
+---
+
+## ⚡ Real Campus Scenarios (IIT Guwahati)
+
+| Scenario ID | Hostel & Location | Raw Student Complaint | Input Category | AI Reclassified Dept | Key AI Augmentation |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `TICKET-WALL-01` | Umiam · Room 102 | *"paint the wall"* | Carpentry | **Other Civil Works** | Reclassified from Carpentry; identifies graffiti and chipped plaster; packs putty, paint, and brush |
+| `TICKET-WALL-02` | Umiam · Room 102 | *"plaster chipping off and graffiti on wall"* | Other Civil Works | **Other Civil Works** | Validates civil works; prescribes surface preparation, plaster repair, and sanding |
+| `TICKET-LAMP-01` | Lohit · Room A233 | *"broken thing."* | Plumbing | **Electricity** | Reclassified from Plumbing; flags shock hazard; mandates **2-Phase Repair** (Civil gap fill $\rightarrow$ Electrical remount) |
+| `TICKET-NON-IPM-LAN` | Kapili · Room 308 | *"Connecting laptop with lan shows no internet"* | Electricity | **Invalid (IT)** | Scope Invalidation: Out of IPM scope; auto-redirects to CCC complaint portal |
+| `TICKET-NON-IPM-FURN` | Disang · Room 214 | *"no table and chair in my hostel room"* | Carpentry | **Invalid (Hostel Admin)** | Scope Invalidation: Out of IPM scope; auto-redirects to Hostel Office |
 
 ---
 
